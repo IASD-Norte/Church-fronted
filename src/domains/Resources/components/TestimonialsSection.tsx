@@ -93,13 +93,20 @@ export function TestimonialsSection() {
       id={RESOURCES_SECTION_IDS.TESTIMONIALS}
       className="w-full py-16 md:py-24 bg-background"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Título */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-            {RESOURCES_TEXTS.TESTIMONIALS_TITLE}
-          </h2>
-          <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-16">
+
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row gap-6 w-full text-center lg:text-left items-center lg:items-start lg:justify-between mb-16">
+          <div className="flex flex-col gap-6 w-full lg:w-auto items-center lg:items-start">
+            <h2
+              className="text-4xl md:text-5xl lg:text-[56px] font-serif text-primary dark:text-zinc-100 tracking-tight leading-tight"
+            >
+              {RESOURCES_TEXTS.TESTIMONIALS_TITLE}
+            </h2>
+            <div className="w-24 h-[1px] bg-[#dfa83d] rounded-full" />
+          </div>
+
+          <p className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed mt-2">
             Explora nuestros recursos espirituales: libros, manuales y documentos para tu crecimiento en Cristo.
           </p>
         </div>
@@ -107,86 +114,82 @@ export function TestimonialsSection() {
         {/* Carousel */}
         <div className="relative">
           <Carousel opts={{ loop: false, dragFree: true }}>
-            <CarouselContent className="-ml-1 md:-ml-0">
+            <CarouselContent className="-ml-4 md:-ml-0">
               {resourcesData.map((resource) => (
                 <CarouselItem
                   key={resource.id}
-                  className="px-0 basis-2/3 md:basis-1/3 lg:basis-1/4"
+                  className="pl-4 basis-[85%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
                 >
                   <motion.div
-                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
                     className="group relative h-full cursor-pointer"
                   >
                     {/* Tarjeta con forma de libro */}
                     <div
-                      className="rounded-xl overflow-hidden w-55 md:w-65 lg:max-w-80 h-[350px] md:h-[400px] lg:h-[400px] flex flex-col relative mx-auto"
+                      className="rounded-sm overflow-hidden w-full h-[380px] md:h-[400px] flex flex-col relative mx-auto bg-[#fcf9f4] dark:bg-zinc-900 border border-border/50"
                       style={{
                         perspective: "1000px",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                       }}
                     >
-                      
 
                       {/* Portada del libro con hover → descripción */}
                       <div
-                        className="relative w-full aspect-[3/4] flex items-center justify-center overflow-hidden rounded-t-lg"
+                        className="relative w-full aspect-[3/4] flex items-center justify-center overflow-hidden border-b border-border/50 bg-white/50 dark:bg-black/20"
                         style={{
                           transformStyle: "preserve-3d",
-                          transform: "rotateY(20deg) translateZ(0)",
+                          transform: "translateZ(0)",
                           transition: "transform 0.3s ease",
                         }}
                       >
                         <img
                           src={resource.coverImage}
                           alt={`Portada de ${resource.title}`}
-                          className="w-full h-[90%] object-contain p-2 transition-opacity duration-300 group-hover:opacity-40"
+                          className="w-full h-[90%] object-contain p-2 transition-opacity duration-300 group-hover:opacity-10"
                         />
 
-                        <div className="absolute inset-0 p-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <p className="dark:text-white text-black text-xs text-center leading-relaxed px-2">
+                        <div className="absolute inset-0 p-4 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <p className="text-primary dark:text-zinc-100 text-sm font-medium text-center leading-relaxed">
                             {resource.text}
                           </p>
                         </div>
                       </div>
 
                       {/* Contenido inferior */}
-                      <div className="p-4 flex flex-col flex-1">
-                        <h3 className="text-lg font-semibold text-foreground line-clamp-2 leading-tight">
+                      <div className="p-5 flex flex-col flex-1 bg-transparent">
+                        <h3 className="text-lg font-serif text-primary dark:text-zinc-100 line-clamp-2 leading-tight group-hover:text-[#dfa83d] transition-colors">
                           {resource.title}
                         </h3>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-xs text-muted-foreground mt-1 font-medium">
                           {resource.author}
                         </p>
 
-                        <div className="mt-auto pt-3">
+                        <div className="mt-auto pt-4">
                           <a
                             href={resource.actionLink}
                             target="_blank"
                             className={`
-                              w-full py-2.5 px-4
-                              rounded-xl
+                              w-full py-3 px-4
+                              rounded-sm
                               flex items-center justify-center gap-2
-                              font-semibold text-sm
-                              transition-all duration-150
-                              active:scale-[0.97]
-                              bg-black dark:bg-white text-white dark:text-black
-                              shadow-[0_0_0_1px_rgba(255,255,255,0.1)]
-                              hover:bg-neutral-900
+                              font-semibold text-xs tracking-[0.2em] uppercase
+                              transition-all duration-300
+                              bg-primary dark:bg-zinc-100 text-white dark:text-primary
+                              hover:bg-primary/90 dark:hover:bg-zinc-200
                             `}
                           >
                             {resource.type === "download" ? (
                               <>
-                                <Download className="w-4 h-4" />
+                                <Download className="w-[14px] h-[14px]" />
                                 Descargar
                               </>
                             ) : (
                               <>
-                                <ShoppingCart className="w-4 h-4" />
+                                <ShoppingCart className="w-[14px] h-[14px]" />
                                 Comprar
                               </>
                             )}
                           </a>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -196,11 +199,11 @@ export function TestimonialsSection() {
             </CarouselContent>
 
             {/* Botones de navegación */}
-            <div className="hidden md:block absolute left-15 top-1/2 -translate-y-1/2">
-              <CarouselPrevious className="w-10 h-10 rounded-full bg-white border border-border shadow-sm hover:bg-gray-100" />
+            <div className="hidden lg:flex absolute -left-12 top-[40%]">
+              <CarouselPrevious className="w-10 h-10 rounded-sm border-primary/40 text-primary dark:text-zinc-300 dark:border-zinc-700 hover:bg-primary hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-900 shadow-sm" />
             </div>
-            <div className="hidden md:block absolute right-4 lg:right-15 top-1/2 -translate-y-1/2">
-              <CarouselNext className="w-10 h-10 rounded-full bg-white border border-border shadow-sm hover:bg-gray-100" />
+            <div className="hidden lg:flex absolute -right-12 top-[40%]">
+              <CarouselNext className="w-10 h-10 rounded-sm border-primary/40 text-primary dark:text-zinc-300 dark:border-zinc-700 hover:bg-primary hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-900 shadow-sm" />
             </div>
           </Carousel>
         </div>

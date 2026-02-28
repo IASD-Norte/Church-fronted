@@ -12,6 +12,7 @@ const Events = lazy(() => import("@/domains/events").then(m => ({ default: m.Eve
 const Resources = lazy(() => import("@/domains/Resources").then(m => ({ default: m.Resources })));
 const Contact = lazy(() => import("@/domains/Contact").then(m => ({ default: m.Contact })));
 const DepartamentsIndex = lazy(() => import("@/domains/Departaments/components/DepartamentsIndexPage"));
+const GruposIndex = lazy(() => import("@/domains/Grupos/components/GruposIndexPage"));
 
 function App() {
   const router = createHashRouter([
@@ -55,6 +56,14 @@ function App() {
           element: (
             <Suspense fallback={null}>
               <DepartamentsIndex />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/grupos",
+          element: (
+            <Suspense fallback={null}>
+              <GruposIndex />
             </Suspense>
           ),
         },
