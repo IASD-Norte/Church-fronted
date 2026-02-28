@@ -1,0 +1,316 @@
+{
+  "bga": [
+    {
+      "name": "Grupo Nuevo Amanecer",
+      "lat": 7.12552,
+      "lng": -73.125783,
+      "direccion": "Cra. 19 #23-18",
+      "description": "La Iglesia Central es conocida por su comunidad activa y sus programas de estudio bíblico para todas las edades.",
+      "images": [
+        "/images/mas/2.jpg"
+      ]
+    },
+    {
+      "name": "Grupo Pequeño Canaán",
+      "lat": 7.123119,
+      "lng": -73.115445,
+      "direccion": "Cl 35 #28-45",
+      "description": "Esta iglesia se centra en programas de desarrollo espiritual y actividades de voluntariado en la comunidad.",
+      "images": [
+        "/images/mas/3.jpg"
+      ]
+    },
+    {
+      "name": "Grupo Pequeño Redencion",
+      "lat": 7.139538,
+      "lng": -73.127435,
+      "direccion": "Cra. 20 #7-42",
+      "description": "Ubicada en el norte de la ciudad, esta iglesia se destaca por sus actividades comunitarias y eventos culturales.",
+      "images": [
+        "/images/grupos/redencion.jpeg"
+      ]
+    },
+    {
+      "name": "Grupo Pequeño JJ",
+      "lat":  7.110747,
+      "lng": -73.113925,
+      "direccion": "Cl. 55 #28-05"
+    },
+    {
+      "name": "Grupo Pequeño Sion",
+      "lat": 7.132817,
+      "lng": -73.126537,
+      "direccion": "Cl. 15 #19-61"
+    },
+    {
+      "name": "Grupo Pequeño Sotomayor",
+      "lat": 7.110012,
+      "lng": -73.11224,
+      "direccion": "Cl. 55b #29-17"
+    },
+    {
+      "name": "Grupo Pequeño Canaán",
+      "lat": 7.107323,
+      "lng": -73.120741,
+      "direccion": "Cl 56 #15-40"
+    },
+    {
+      "name": "Grupo Pequeño - La Victoria",
+      "lat": 7.096776,
+      "lng": -73.117409,
+      "direccion": "Cl. 69 # 12 -11"
+    },
+    {
+      "name": "Grupo Pequeño La Joya",
+      "lat": 7.115632,
+      "lng": -73.131861,
+      "direccion": "Cra. 8 #37-1"
+    },
+    {
+      "name": "Grupo Pequeño Filadelfia - IASD",
+      "lat": 7.081401,
+      "lng": -73.123379,
+      "direccion": "Cra. 15 #103c-62"
+    },
+    {
+      "name": "Grupo Pequeño 7o Día El Jardín",
+      "lat": 7.114508,
+      "lng": -73.105359,
+      "direccion": "Av. El Jardín #60"
+    },
+    {
+      "name": "Grupo Pequeño Kennedy",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 26 Nte. ##107"
+    },
+    {
+      "name": "Grupo Pequeño Shalom",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "a 33a-114, Cra. 43 #33a-2"
+    },
+    {
+      "name": "Grupo Pequeño - Renuevame - IASD",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 110 # 21-14"
+    },
+    {
+      "name": "Grupo Pequeño Nuevo Amanecer",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 47 #22-85"
+    },
+    {
+      "name": "Grupo Pequeño Libertad",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra. 15d #10486 104a- a"
+    },
+    {
+      "name": "Grupo Pequeño Del Dia El Edén",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra. 12 #1537"
+    },
+    {
+      "name": "Grupo Pequeño Cristo vive",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Tv. 22 #87-11"
+    },
+    {
+      "name": "Grupo Pequeño Maranatha",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 1 #14-46"
+    },
+    {
+      "name": "Grupo Pequeño Redimir",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 19 #31-29"
+    },
+    {
+      "name": "Grupo Pequeño Getsemani",
+      "lat": 7.119,
+      "lng": -73.129,
+      "direccion": "Cl. 16 #59-47"
+    },
+    {
+      "name": "Grupo Pequeño Bethel",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Casa Sobre La Roca",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 58 #27-32"
+    },
+    {
+      "name": "Grupo Pequeño Colorados",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Av 51 #21-72"
+    },
+    {
+      "name": "Grupo Pequeño La Cumbre",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Canaan Norte",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra 23 #19-49"
+    },
+    {
+      "name": "Grupo Pequeño Central Emmanuel Giron",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño (MONTEVERDE)",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Seventh-Day Adventist Church Cañaveral",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Renacer",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Horeb",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "PRADOS CELESTIALES Grupo Pequeño",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Orión",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 70 #8b"
+    },
+    {
+      "name": "Grupo Pequeño MARANATHA",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Shaday",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "a 101-47, Cra. 32 #101-1"
+    },
+    {
+      "name": "Grupo Pequeño - Mutis - IASD",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 61 #1W-89"
+    },
+    {
+      "name": "Grupo Pequeño - Efeso",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "a 74a-106, Cra. 32 #74a-2"
+    },
+    {
+      "name": "Grupo Pequeño Nueva Jerusalén",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "a 64-120 Carrera 25 Oeste #642"
+    },
+    {
+      "name": "Grupo Pequeño Nueva Jerusalén Kennedy",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra 14 #15 04"
+    },
+    {
+      "name": "Grupo Pequeño Bethel",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "4VWM+F2"
+    },
+    {
+      "name": "Grupo Pequeño - Verdad Presente",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra. 3 #43 Norte-2 a 43 Norte-114"
+    },
+    {
+      "name": "Grupo Pequeño Galilea - IASD",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cl. 105 #5a-2 a 5a-24"
+    },
+    {
+      "name": "Grupo Pequeño María Paz",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra. 5 #15 Norte94 40n"
+    },
+    {
+      "name": "Grupo Pequeño Maranatha",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Central Floridablanca",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Peniel",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Cra. 7 #2135"
+    },
+    {
+      "name": "Grupo Pequeño del Septimo Dia Paraiso",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Floridablanca, Santander"
+    },
+    {
+      "name": "Iglesia Villas de Sión",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño DEL SEPTIMO DIA EBEN-EZER",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    },
+    {
+      "name": "Grupo Pequeño Revive",
+      "lat": 7.119,
+      "lng": -73.119,
+      "direccion": "Santander"
+    }
+  ]
+}

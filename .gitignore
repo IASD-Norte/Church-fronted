@@ -7,10 +7,22 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
 dist
 dist-ssr
 *.local
+
+# Keep environment variables out of version control
+.env
+
+# Lock files de otros package managers (solo usar pnpm-lock.yaml)
+package-lock.json
+yarn.lock
+
+# pnpm
+.pnpm-store/
+.pnpm-debug.log
 
 # Editor directories and files
 .vscode/*
