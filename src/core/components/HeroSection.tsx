@@ -8,15 +8,14 @@ interface HeroSectionProps {
   video?: string;
   buttonText?: string;
   buttonHref?: string;
-  buttonClassName?: string; // para customizar estilos del botón
+  buttonClassName?: string;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   titulo1,
   titulo2,
-  video,
   buttonText = "Contactanos",
-  buttonHref = "#Contactanos",
+  buttonHref = "/contact",
   buttonClassName = "",
 }) => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -26,8 +25,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
   useEffect(() => {
     const hero = heroRef.current;
-    const videoEl = hero?.querySelector(".hero__video") as HTMLVideoElement;
-    if (!hero || !videoEl) return;
+    if (!hero) return;
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -38,11 +36,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         pin: true,
         anticipatePin: 1,
       },
-    });
-
-    videoEl.play().catch(() => {
-      videoEl.muted = true;
-      videoEl.play();
     });
 
     tl.fromTo(
@@ -85,48 +78,41 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       }
     );
 
-    gsap.to(videoEl, {
-      yPercent: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: hero,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
+
+  // Use the provided youtube video ID or default to the user's requested video
+  const youtubeUrl = "https://www.youtube.com/embed/LenghWYt7Yc?autoplay=1&mute=1&loop=1&playlist=LenghWYt7Yc&controls=0&rel=0&start=19&end=60";
 
   return (
     <section
       ref={heroRef}
       className="relative z-0 w-full h-[100vh] flex items-center justify-center bg-black text-white overflow-hidden"
     >
-      <video
-        className="hero__video absolute inset-0 w-full h-full object-cover"
-        src={video || "https://cdn.coverr.co/videos/coverr-a-stormy-sea-6621/1080p.mp4"}
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <iframe
+          className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 object-cover scale-[1.15] opacity-60"
+          src={youtubeUrl}
+          title="Background Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
 
-      <div className="absolute inset-0 bg-black/30 z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-[1]" />
 
-      <div className="hero__content relative text-center flex flex-col items-center justify-center space-y-6 p-6">
+      <div className="hero__content relative z-10 text-center flex flex-col items-center justify-center space-y-8 p-6 max-w-6xl mx-auto">
         <h1
           ref={text1Ref}
-          className="text-[6vmin] font-bold tracking-wide  tracking-tight leading-none text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.7)]"
+          className="text-5xl md:text-6xl lg:text-[80px] font-serif text-[#fcf9f4] leading-[1.1] tracking-tight drop-shadow-2xl"
         >
           {titulo1}
         </h1>
         <h2
           ref={text2Ref}
-          className="text-[7vmin] font-bold leading-none text-gray-100 opacity-0 drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)]"
+          className="text-xs md:text-sm lg:text-base tracking-[0.25em] uppercase font-semibold text-[#fcf9f4]/80 opacity-0 px-4 max-w-4xl leading-relaxed"
         >
           {titulo2}
         </h2>
@@ -135,9 +121,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <a
             href={buttonHref}
             ref={buttonRef}
-            className={`bg-white dark:bg-black flex gap-2 items-center opacity-0 px-8 py-4 bg-white/90 text-black dark:text-white rounded-2xl font-bold text-lg mt-6 hover:bg-gray-200 transition relative z-20 pointer-events-auto ${buttonClassName}`}
+            className={`group mt-10 flex items-center justify-center gap-4 px-8 py-4 border border-[#fcf9f4]/40 text-[#fcf9f4] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#fcf9f4] hover:text-black transition-all duration-300 relative z-20 pointer-events-auto opacity-0 ${buttonClassName}`}
           >
-            {buttonText}
+            {buttonText} <span className="text-xl font-light transform group-hover:translate-x-1 transition-transform">→</span>
           </a>
         )}
       </div>

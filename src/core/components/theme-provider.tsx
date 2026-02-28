@@ -26,9 +26,13 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  // SIEMPRE forzar a "light" sin importar lo que haya en localStorage
+  const [theme, setTheme] = useState<Theme>("light")
+
+  // Asegurar que si hay algo viejo guardado en localStorage, se limpie al iniciar
+  useEffect(() => {
+    localStorage.setItem(storageKey, "light")
+  }, [storageKey])
 
   useEffect(() => {
     const root = window.document.documentElement

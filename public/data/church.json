@@ -1,45 +1,33 @@
 {
   "bga": [
     {
-      "name": "Grupo Redencion",
-      "lat": 7.139538,
-      "lng": -73.127435,
-      "direccion": "Cra. 20 #6-47",
-      "description": "Ubicada en el norte de la ciudad, esta iglesia se destaca por sus actividades comunitarias y eventos culturales.",
-      "images": [
-        "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noEPJuxuiCU-ymQwroWairl8eln8Rl5-nen8agflnruVg7xb8096Xuv2-w_J-uZME6j2jLH2LKQ0zzGLaEUvmIm8UH1pHHvuhDQsb08mkByrNLhViAZ0iHaS-ksJke7Q770qHiFOw=s680-w680-h510-rw",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKaeB0PzfLXmzpKsvgiXrero_N0LFuITVPTw&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGKOUS5UFOFab64MvL2Pb8roHMtSeauv4jLb0lgMm29cDifbA2nOb3JcRUrEo3dPnie2Q&usqp=CAU",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRte-qPribLHpJJM-zYO4PPjCm3SJBrvTebzA&s",
-        "https://lh3.googleusercontent.com/p/AF1QipNC910UDY9SN7HY4YwkkmxN7blwh4Y8i0Z71lat=w1024-k"
-      ]
-    },
-    {
       "name": "Grupo Nuevo Amanecer",
       "lat": 7.12552,
       "lng": -73.125783,
       "direccion": "Cra. 19 #23-18",
       "description": "La Iglesia Central es conocida por su comunidad activa y sus programas de estudio bíblico para todas las edades.",
       "images": [
-        "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800",
-        "https://images.unsplash.com/photo-1588776814546-4bb92ed913bb?w=800",
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
-        "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=800",
-        "https://images.unsplash.com/photo-1561484935-673c39c2b6b1?w=800"
+        "/images/mas/2.jpg"
       ]
     },
     {
-      "name": "Grupo Pequeño Redención",
+      "name": "Grupo Pequeño Canaán",
       "lat": 7.123119,
       "lng": -73.115445,
       "direccion": "Cl 35 #28-45",
       "description": "Esta iglesia se centra en programas de desarrollo espiritual y actividades de voluntariado en la comunidad.",
       "images": [
-        "https://images.unsplash.com/photo-1531379410504-1e4a0f56e1a3?w=800",
-        "https://images.unsplash.com/photo-1506466010722-395aa2bef877?w=800",
-        "https://images.unsplash.com/photo-1512001168543-5f2a7f3f7e1c?w=800",
-        "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?w=800",
-        "https://images.unsplash.com/photo-1505852679233-d9fd70aff56d?w=800"
+        "/images/mas/3.jpg"
+      ]
+    },
+    {
+      "name": "Grupo Pequeño Redencion",
+      "lat": 7.139538,
+      "lng": -73.127435,
+      "direccion": "Cra. 20 #7-42",
+      "description": "Ubicada en el norte de la ciudad, esta iglesia se destaca por sus actividades comunitarias y eventos culturales.",
+      "images": [
+        "/images/grupos/redencion.jpeg"
       ]
     },
     {

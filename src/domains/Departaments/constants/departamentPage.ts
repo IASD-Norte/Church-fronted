@@ -81,7 +81,7 @@ export const departmentData: Record<DepartmentSlug, Department> = {
     title: "Departamento de Comunicaciones",
     description: "El Departamento de Comunicación de la Unión Colombiana del Sur actúa como facilitador para la administración y todos los departamentos de la iglesia en su labor de testificación ante la comunidad, ayudando a transmitir su mensaje de esperanza al mundo.",
     imageVertical: "https://imgv2-1-f.scribdassets.com/img/document/444833391/original/61cb2a216c/1?v=1",
-    imageHorizontal: "https://i0.wp.com/adventistasloscreadores.com/wp-content/uploads/2023/07/Comunicaciones.png",
+    imageHorizontal: "/images/comunicaciones/image.jpeg",
     sections: [
       {
         heading: "Propósito",

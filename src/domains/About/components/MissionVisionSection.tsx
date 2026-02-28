@@ -27,27 +27,33 @@ export function MissionVisionSection() {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto py-12 px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-3">
+    <div className="w-full max-w-7xl mx-auto py-12 px-6 lg:px-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
         {items.map((item) => (
           <div
             key={item.id}
-            className="relative bg-gray-100 dark:bg-[#0c0c0c] rounded-4xl py-18 px-15 overflow-hidden border border-white/10 hover:border-white/20 transition"
+            className="group relative bg-[#fcf9f4] dark:bg-zinc-900/50 p-10 md:p-14 border border-border/50 transition-all duration-300 hover:shadow-xl rounded-sm hover:-translate-y-1"
           >
-            {/* Número gigante */}
-            <span className="absolute bottom-4 right-6 text-6xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white-500 to-blue-700 dark:to-blue-800 opacity-80 select-none">
+            {/* Elegant Number */}
+            <span className="absolute top-8 right-8 text-5xl lg:text-7xl font-['Brush_Script_MT',cursive,serif] text-primary/10 dark:text-zinc-700/50 group-hover:text-[#dfa83d]/20 transition-colors duration-500 select-none -rotate-6">
               {item.id}
             </span>
 
-            {/* Título */}
-            <h3 className="dark:text-white font-semibold tracking-wide text-lg mb-4">
-              {item.title.toUpperCase()}
+            {/* Title */}
+            <h3 className="text-2xl md:text-3xl font-serif text-primary dark:text-zinc-100 mb-6 relative z-10 leading-tight">
+              {item.title}
             </h3>
 
-            {/* Texto */}
-            <p className="dark:text-gray-400 leading-relaxed text-xs lg:text-sm md:text-base max-w-sm relative z-10">
+            {/* Separator line */}
+            <div className="w-12 h-[1px] bg-[#dfa83d]/50 mb-6 group-hover:w-24 transition-all duration-500" />
+
+            {/* Description */}
+            <p className="text-muted-foreground text-sm md:text-base leading-relaxed relative z-10 font-medium max-w-sm">
               {item.description}
             </p>
+
+            {/* Sutil decorativo esquinero */}
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-transparent group-hover:border-[#dfa83d]/30 transition-all duration-500 m-2" />
           </div>
         ))}
       </div>
