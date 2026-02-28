@@ -1,24 +1,24 @@
 import { ModeToggle } from "@/core/components/mode-toggle"
-import { ProfileLogin } from "@/core/components/profile-login"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/core/components/ui/navigation-menu"
 import { cn } from "@/shared/lib/utils"
 import { ChevronDown, Menu, X } from "lucide-react"
 import * as React from "react"
 import { Link, useLocation } from "react-router-dom"
-import { DepartmentItem } from "@/domains/Departaments/components/DepartamentItem"
 
 export function NavigationMenuDemo() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
   const [openSubmenu, setOpenSubmenu] = React.useState<string | null>(null)
+  const [activeDesktopMenu, setActiveDesktopMenu] = React.useState<string | null>(null)
+  const [scrolled, setScrolled] = React.useState(false)
   const location = useLocation()
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   React.useEffect(() => {
     setMobileMenuOpen(false)
@@ -29,161 +29,258 @@ export function NavigationMenuDemo() {
     setOpenSubmenu(openSubmenu === menu ? null : menu)
   }
 
+  const isHomePage = location.pathname === "/"
+  const activeScrolled = !isHomePage || scrolled
+
 
   return (
     <>
       {/* Desktop Navigation */}
-      <NavigationMenu 
-        viewport={false} 
-        className="hidden lg:flex border-b border-border/50 shadow-sm"
+      <nav
+        className={cn(
+          "hidden lg:flex fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-24 items-center justify-center",
+          activeScrolled || activeDesktopMenu
+            ? "border-b border-border/50 shadow-sm bg-background"
+            : "bg-transparent"
+        )}
+        onMouseLeave={() => setActiveDesktopMenu(null)}
       >
         <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center gap-3">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200"
           >
             <img
-              src="/logo-remove.png"
-              alt="Logo IASD"
-              className="h-13 w-auto dark:brightness-0 dark:invert transition-all duration-300"
+              src="/logo/logo-remove.png"
+              alt=""
+              className={cn(
+                scrolled || activeDesktopMenu ? "h-60 w-auto transition-all duration-300 dark:invert" : "h-60 w-auto transition-all duration-300 invert"
+              )}
             />
           </Link>
         </div>
 
-        <NavigationMenuList className="gap-1">
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-              <Link 
-                to="/" 
-                className="font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Inicio
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-    
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="cursor-pointer font-medium text-foreground hover:text-primary data-[state=open]:text-primary transition-colors">
-              <Link to="/nosotros">Nosotros</Link>
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-0 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <li className="row-span-4">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      className="relative flex h-full w-full  flex-col justify-end rounded-lg overflow-hidden p-6 no-underline outline-none select-none hover:shadow-xl hover:ring-2 hover:ring-ring transition-all duration-300 group border border-border"
-                      to="/nosotros"
-                    >
+        <div className="flex items-center gap-8 h-full">
+          <Link
+            to="/"
+            className={cn(
+              "px-3 py-2 text-sm font-semibold transition-colors rounded-md",
+              activeScrolled || activeDesktopMenu
+                ? "text-foreground hover:text-primary hover:bg-accent/50"
+                : "text-white hover:text-white/80 hover:bg-white/10"
+            )}
+          >
+            Inicio
+          </Link>
+
+          {/* NOSOTROS */}
+          <div
+            className="h-full flex items-center"
+            onMouseEnter={() => setActiveDesktopMenu('nosotros')}
+          >
+            <Link
+              to="/nosotros"
+              className={cn(
+                "flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors rounded-md",
+                activeScrolled || activeDesktopMenu
+                  ? "text-foreground hover:text-primary hover:bg-accent/50"
+                  : "text-white hover:text-white/80 hover:bg-white/10",
+                activeDesktopMenu === 'nosotros' && "text-primary bg-accent/50"
+              )}
+            >
+              Nosotros
+              <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", activeDesktopMenu === 'nosotros' && "rotate-180")} />
+            </Link>
+
+            <div
+              className={cn(
+                "absolute top-full left-0 w-full bg-popover shadow-xl border-b border-border transition-all duration-300 origin-top bg-white dark:bg-black",
+                activeDesktopMenu === 'nosotros' ? "opacity-100 visible scale-y-100" : "opacity-0 invisible scale-y-95 pointer-events-none"
+              )}
+            >
+              <div className="flex w-full py-12 px-6 text-foreground">
+                <div className="flex w-full max-w-7xl mx-auto items-center justify-between gap-16">
+                  {/* Left side: Image */}
+                  <div className="w-[45%] flex-shrink-0">
+                    <Link to="/nosotros" className="block w-full overflow-hidden transition-opacity hover:opacity-90">
                       <img
-                        src="/logo.jpg"
+                        src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweplqjh2n9EK-lXikWaJtIbup-O4shDkSWeQSrD4d32g_mJPlbcqcOxp_1mxnQMF1W441s3ndQysnwdo7yrfOoIIwVWuibqTeCqNwwbZRQ94mrBLAEKjukf7fZyxW0IwmhPVrKlBaQ=s680-w680-h510-rw"
                         alt="Iglesia Adventista Norte"
-                        className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-auto object-cover"
                       />
-                      <div className="absolute inset-0 bg-[linear-gradient(to_top,oklch(0_0_0/0.8),oklch(0_0_0/0.3),oklch(0_0_0/0))] z-5"></div>
-                      <div className="relative z-10 space-y-2">
-                        <div className="flex text-center text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                          Comunicaciones Norte
-                        </div>
-                        <p className="text-sm text-center leading-relaxed text-white/95 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
-                          Iglesia Adventista del Séptimo Día Norte Bucaramanga
-                        </p>
-                      </div>
                     </Link>
-                  </NavigationMenuLink>
-                </li>
-                <ListItem to="/nosotros#quienes-somos" title="¿Quiénes Somos?">
-                  Una familia global de cristianos unidos por la fe y el servicio
-                </ListItem>
-                <ListItem to="/nosotros#creencias" title="Creencias">
-                  Principios fundamentales basados en las Escrituras
-                </ListItem>
-                <ListItem to="/nosotros#historia" title="Nuestra Historia">
-                  Décadas de servicio y testimonio en Bucaramanga
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+                  </div>
 
+                  {/* Right side: Links Grid */}
+                  <div className="w-[55%] flex flex-col justify-center">
+                    <div className="grid grid-cols-2 gap-x-12 gap-y-8 font-serif">
+                      <Link to="/nosotros#quienes-somos" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
+                        ¿Quiénes Somos?
+                      </Link>
+                      <Link to="/nosotros#creencias" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
+                        Creencias
+                      </Link>
+                      <Link to="/nosotros#historia" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
+                        Nuestra Historia
+                      </Link>
+                      <Link to="/recursos" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
+                        Recursos
+                      </Link>
+                    </div>
 
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="cursor-pointer font-medium text-foreground hover:text-primary data-[state=open]:text-primary transition-colors">
+                    {/* Action Buttons */}
+                    <div className="flex gap-4 mt-12">
+                      <Link
+                        to="/nosotros"
+                        className="flex items-center gap-3 px-6 py-3 border border-border text-sm font-semibold tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors"
+                      >
+                        CONÓCENOS MÁS <span className="text-lg leading-none">→</span>
+                      </Link>
+                      <Link
+                        to="/contact"
+                        className="flex items-center gap-3 px-6 py-3 border border-border text-sm font-semibold tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors"
+                      >
+                        CONTÁCTANOS <span className="text-lg leading-none">→</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* DEPARTAMENTOS */}
+          <div
+            className="h-full flex items-center"
+            onMouseEnter={() => setActiveDesktopMenu('departamentos')}
+          >
+            <span
+              className={cn(
+                "cursor-pointer flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors rounded-md",
+                activeScrolled || activeDesktopMenu
+                  ? "text-foreground hover:text-primary hover:bg-accent/50"
+                  : "text-white hover:text-white/80 hover:bg-white/10",
+                activeDesktopMenu === 'departamentos' && "text-primary bg-accent/50"
+              )}
+            >
               Departamentos
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[25rem] gap-0 p-1 md:grid-cols-2 bg-popover">
-                <DepartmentItem to="/departamentos/mayordomia" title="Mayordomía" />
-                <DepartmentItem to="/departamentos/diaconos" title="Diáconos" />
-                <DepartmentItem to="/departamentos/conquistadores" title="Conquistadores" />
-                <DepartmentItem to="/departamentos/ministerios-personales" title="Ministerios Personales" />
-                <DepartmentItem to="/departamentos/comunicaciones" title="Comunicaciones" />
-                <DepartmentItem to="/departamentos/escuela-sabatica" title="Escuela Sabática" />
-                <DepartmentItem to="/departamentos/jovenes" title="Jóvenes" />
-                <DepartmentItem to="/departamentos/universitarios" title="Universitarios" />
-                <DepartmentItem to="/departamentos/educacion" title="Educación" />
-                <DepartmentItem to="/departamentos/familia" title="Familia" />
-                <DepartmentItem to="/departamentos/salud" title="Salud" />
-                <DepartmentItem to="/departamentos/dorcas" title="Dorcas" />
-                <DepartmentItem to="/departamentos/tesoreria" title="Tesorería" />
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+              <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", activeDesktopMenu === 'departamentos' && "rotate-180")} />
+            </span>
 
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-              <Link 
-                to="/recursos" 
-                className="font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Recursos
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+            <div
+              className={cn(
+                "absolute top-full left-0 w-full bg-popover shadow-xl border-b border-border transition-all duration-300 origin-top bg-white dark:bg-black",
+                activeDesktopMenu === 'departamentos' ? "opacity-100 visible scale-y-100" : "opacity-0 invisible scale-y-95 pointer-events-none"
+              )}
+            >
+              <div className="flex justify-center w-full py-12 px-6 text-foreground">
+                <div className="flex w-full max-w-7xl mx-auto flex-col">
+                  {/* Departments Grid */}
+                  <div className="grid grid-cols-4 gap-x-12 gap-y-6 font-serif">
+                    <Link to="/departamentos/mayordomia" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Mayordomía</Link>
+                    <Link to="/departamentos/diaconos" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Diáconos</Link>
+                    <Link to="/departamentos/conquistadores" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Conquistadores</Link>
+                    <Link to="/departamentos/ministerios-personales" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Ministerios Personales</Link>
+                    <Link to="/departamentos/comunicaciones" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Comunicaciones</Link>
+                    <Link to="/departamentos/escuela-sabatica" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Escuela Sabática</Link>
+                    <Link to="/departamentos/jovenes" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Jóvenes</Link>
+                    <Link to="/departamentos/universitarios" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Universitarios</Link>
+                    <Link to="/departamentos/educacion" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Educación</Link>
+                    <Link to="/departamentos/familia" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Familia</Link>
+                    <Link to="/departamentos/salud" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Salud</Link>
+                    <Link to="/departamentos/dorcas" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Dorcas</Link>
+                    <Link to="/departamentos/tesoreria" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Tesorería</Link>
+                  </div>
 
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-              <Link 
-                to="/eventos" 
-                className="font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Eventos
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-              <Link 
-                to="/contact" 
-                className="font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Contactanos
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
+                  {/* Action Buttons */}
+                  <div className="flex justify-end gap-4 mt-12 w-full">
+                    <Link
+                      to="/departamentos"
+                      className="flex items-center gap-3 px-6 py-3 border border-border text-sm font-semibold tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors"
+                    >
+                      VER TODOS LOS DEPARTAMENTOS <span className="text-lg leading-none">→</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Link
+            to="/recursos"
+            className={cn(
+              "px-3 py-2 text-sm font-semibold transition-colors rounded-md",
+              activeScrolled || activeDesktopMenu
+                ? "text-foreground hover:text-primary hover:bg-accent/50"
+                : "text-white hover:text-white/80 hover:bg-white/10"
+            )}
+          >
+            Recursos
+          </Link>
+
+          <Link
+            to="/eventos"
+            className={cn(
+              "px-3 py-2 text-sm font-semibold transition-colors rounded-md",
+              activeScrolled || activeDesktopMenu
+                ? "text-foreground hover:text-primary hover:bg-accent/50"
+                : "text-white hover:text-white/80 hover:bg-white/10"
+            )}
+          >
+            Eventos
+          </Link>
+
+          <Link
+            to="/contact"
+            className={cn(
+              "px-3 py-2 text-sm font-semibold transition-colors rounded-md",
+              activeScrolled || activeDesktopMenu
+                ? "text-foreground hover:text-primary hover:bg-accent/50"
+                : "text-white hover:text-white/80 hover:bg-white/10"
+            )}
+          >
+            Contactanos
+          </Link>
+        </div>
 
         <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-1.5 z-50">
-          <ModeToggle />
-          <ProfileLogin />
+          <div className={cn("transition-colors", !activeScrolled && !activeDesktopMenu && "brightness-200 contrast-200")}>
+            <ModeToggle />
+          </div>
         </div>
-      </NavigationMenu>
+      </nav>
 
       {/* Mobile Navigation */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-md border-b border-border/50 shadow-sm">
+      <div className={cn(
+        "lg:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        activeScrolled || mobileMenuOpen
+          ? "bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm"
+          : "bg-transparent"
+      )}>
         <div className="flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
             <img
-              src="/logo-remove.png"
+              src={activeScrolled || mobileMenuOpen ? "/logo-remove.png" : "/logo.jpg"}
               alt="Logo IASD"
-              className="h-9 w-auto dark:brightness-0 dark:invert transition-all duration-300"
+              className={cn(
+                "h-10 w-auto transition-all duration-300",
+                !(activeScrolled || mobileMenuOpen) && "rounded-full"
+              )}
             />
           </Link>
-          
+
           <div className="flex items-center gap-1.5">
-            <ModeToggle />
-            <ProfileLogin />
+            <div className={cn("transition-colors", !(activeScrolled || mobileMenuOpen) && "brightness-200 contrast-200")}>
+              <ModeToggle />
+            </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 hover:bg-accent/80 hover:text-accent-foreground rounded-md transition-colors duration-200"
+              className={cn(
+                "p-1.5 rounded-md transition-colors duration-200",
+                activeScrolled || mobileMenuOpen
+                  ? "hover:bg-accent/80 hover:text-accent-foreground text-foreground"
+                  : "text-white hover:bg-white/10"
+              )}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -198,7 +295,7 @@ export function NavigationMenuDemo() {
               <MobileNavLink to="/" onClick={() => setMobileMenuOpen(false)}>
                 Inicio
               </MobileNavLink>
-              
+
               <MobileSubmenu
                 title="Nosotros"
                 isOpen={openSubmenu === 'nosotros'}
@@ -251,50 +348,22 @@ export function NavigationMenuDemo() {
         )}
       </div>
 
-      {/* Mobile Spacer */}
-      <div className="lg:hidden h-[60px]"></div>
     </>
   )
 }
 
 // Helper Components
-function ListItem({
-  title,
-  children,
+
+
+
+function MobileNavLink({
   to,
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { to: string }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link
-          to={to}
-          className={cn(
-            "block select-none space-y-1.5 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:shadow-sm border border-transparent hover:border-border",
-            className
-          )}
-        >
-          <div className="text-sm font-semibold leading-none text-foreground">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
-  )
-}
-
-
-
-function MobileNavLink({ 
-  to, 
-  children, 
-  onClick 
-}: { 
-  to: string; 
-  children: React.ReactNode; 
-  onClick?: () => void 
+  children,
+  onClick
+}: {
+  to: string;
+  children: React.ReactNode;
+  onClick?: () => void
 }) {
   return (
     <Link

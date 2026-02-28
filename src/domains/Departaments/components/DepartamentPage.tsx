@@ -21,7 +21,7 @@ export default function DepartmentPage() {
   const data = departmentData[slug];
 
   return (
-    <div className="flex-1 min-h-screen w-full py-10 px-4 md:px-10 lg:px-20">
+    <div className="flex-1 min-h-screen w-full py-20 px-4 md:px-10 lg:px-20 mt-10">
 
       <Card className="p-6 md:p-10">
         <CardContent className="flex-1 space-y-12 md:space-y-16">

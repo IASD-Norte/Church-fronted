@@ -1,12 +1,11 @@
-import { Button } from "@/core/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/core/components/ui/card"
 import { Input } from "@/core/components/ui/input"
 import { Label } from "@/core/components/ui/label"
 import { Textarea } from "@/core/components/ui/textarea"
-import { CheckCircle2, Loader2, Mail, Send, User } from "lucide-react"
+import { CheckCircle2, Loader2, MapPin, Send } from "lucide-react"
 import { useState } from "react"
 import emailjs from "emailjs-com"
 import WorldMapDemo from "./mapChurch"
+import { cn } from "@/shared/lib/utils"
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -54,43 +53,76 @@ export default function Contact() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-background py-20 px-4 lg:px-8">
-      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-start">
-        <WorldMapDemo />
+    <section className="w-full min-h-screen flex items-center justify-center bg-background py-20 px-6 lg:px-16 overflow-hidden">
+      <div className="w-full max-w-7xl flex flex-col lg:flex-row items-stretch gap-12 lg:gap-20">
 
-        <Card className="shadow-lg border-border/50 mt-10">
-          <CardHeader className="space-y-8 pb-6">
-            <div>
-              <CardTitle className="text-2xl font-bold">
-                Envíanos un mensaje o
-              </CardTitle>
-              <CardTitle className="text-2xl font-bold">
-                Escribe tu petición de oración
-              </CardTitle>
+        {/* Left Side: Map / Location */}
+        <div className="w-full lg:w-1/2 flex flex-col items-start justify-center">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary/60 dark:text-zinc-400">
+              Ubicación
+            </span>
+            <div className="h-[1px] w-12 bg-primary/30 dark:bg-zinc-700" />
+          </div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-[56px] font-serif text-primary dark:text-zinc-100 leading-[1.1] tracking-tight mb-8">
+            Encuéntranos en <br className="hidden md:block" /> Norte Bucaramanga
+          </h2>
+
+          <div className="w-full aspect-[4/3] rounded-sm overflow-hidden border border-border/50 shadow-xl relative">
+            <WorldMapDemo />
+          </div>
+
+          <div className="flex items-start gap-4 mt-8 text-primary/80 dark:text-zinc-300">
+            <MapPin className="w-6 h-6 shrink-0 mt-1" />
+            <p className="text-lg md:text-xl font-serif">
+              Estamos ubicados en diferentes sectores de la zona norte. ¡Visítanos o escríbenos para más detalles!
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side: Form */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center">
+          <div className="w-full bg-[#fcf9f4] dark:bg-zinc-900 border border-border/60 p-8 md:p-12 shadow-sm rounded-sm relative">
+
+            {/* Decorative Label */}
+            <div className="absolute top-0 right-10 transform -translate-y-1/2 bg-primary text-white dark:bg-zinc-100 dark:text-zinc-900 px-6 py-2">
+              <span className="text-xs font-bold tracking-[0.25em] uppercase">Contacto</span>
             </div>
-            <CardDescription>
-              Completa el formulario y estaremos orando por ti.
-            </CardDescription>
-          </CardHeader>
 
-          <CardContent>
+            <div className="mb-10 mt-4">
+              <h3 className="font-['Brush_Script_MT',cursive,serif] text-4xl text-primary dark:text-zinc-100 mb-4 transform -rotate-2">
+                Escríbenos
+              </h3>
+              <h4 className="text-3xl md:text-4xl font-serif text-primary dark:text-zinc-100 leading-tight">
+                Envía tu mensaje o<br />
+                tu <span className="italic text-primary/80">petición de oración</span>
+              </h4>
+              <p className="text-muted-foreground mt-4 text-sm md:text-base">
+                Completa el formulario a continuación y estaremos comunicándonos u orando por ti muy pronto.
+              </p>
+            </div>
+
             {enviado ? (
-              <div className="py-12 text-center space-y-4">
-                <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                  <CheckCircle2 className="w-10 h-10 text-primary" />
+              <div className="py-16 flex flex-col items-center text-center space-y-6 animate-in fade-in duration-500">
+                <div className="w-20 h-20 bg-[#dfa83d]/10 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-10 h-10 text-[#dfa83d]" />
                 </div>
-                <h3 className="text-xl font-semibold">
-                  ¡Mensaje enviado!
-                </h3>
-                <p className="text-muted-foreground">
-                  Gracias por escribirnos.
-                </p>
+                <div>
+                  <h3 className="text-2xl font-serif text-primary dark:text-zinc-100 mb-2">
+                    ¡Mensaje enviado con éxito!
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Gracias por ponerte en contacto. Dios te bendiga.
+                  </p>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-4">
-                  <Label className="flex gap-2">
-                    <User className="w-4 h-4" /> Nombre completo
+
+                <div className="space-y-3">
+                  <Label className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1">
+                    Nombre completo
                   </Label>
                   <Input
                     name="nombre"
@@ -98,12 +130,14 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     disabled={enviando}
+                    className="border-0 border-b border-primary/20 ml-1 bg-transparent rounded-none px-1 focus-visible:ring-0 focus-visible:border-primary dark:bg-transparent md:text-lg h-12 shadow-none"
+                    placeholder="Tu nombre completo"
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <Label className="flex gap-2">
-                    <Mail className="w-4 h-4" /> Correo electrónico
+                <div className="space-y-3">
+                  <Label className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1">
+                    Correo electrónico
                   </Label>
                   <Input
                     type="email"
@@ -112,12 +146,14 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     disabled={enviando}
+                    className="border-0 ml-1 border-b border-primary/20 bg-transparent rounded-none px-1 focus-visible:ring-0 focus-visible:border-primary dark:bg-transparent  md:text-lg h-12 shadow-none"
+                    placeholder="tucorreo@ejemplo.com"
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <Label className="flex gap-2">
-                    <Send className="w-4 h-4" /> Mensaje
+                <div className="space-y-3">
+                  <Label className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1">
+                    ¿Cómo podemos ayudarte?
                   </Label>
                   <Textarea
                     name="mensaje"
@@ -125,26 +161,39 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     disabled={enviando}
+                    className="border-0 ml-1 border-b border-primary/20 bg-transparent rounded-none px-1 focus-visible:ring-0 focus-visible:border-primary dark:bg-transparent min-h-[120px] md:text-lg resize-none shadow-none"
+                    placeholder="Escribe tu mensaje o petición de oración aquí..."
                   />
                 </div>
 
-                <Button type="submit" disabled={enviando} className="w-full">
+                <button
+                  type="submit"
+                  disabled={enviando}
+                  className={cn(
+                    "group w-full flex items-center justify-center gap-4 px-8 py-5 mt-8",
+                    "border border-primary/40 dark:border-zinc-700 bg-transparent",
+                    "text-primary dark:text-zinc-300 text-xs font-semibold tracking-[0.2em] uppercase",
+                    "hover:bg-primary hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-900 transition-all duration-300",
+                    enviando && "opacity-50 cursor-not-allowed"
+                  )}
+                >
                   {enviando ? (
                     <>
-                      <Loader2 className="animate-spin mr-2" />
-                      Enviando...
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      ENVIANDO...
                     </>
                   ) : (
                     <>
-                      <Send className="mr-2" />
-                      Enviar mensaje
+                      ENVIAR MENSAJE
+                      <Send className="w-4 h-4 ml-2 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </>
                   )}
-                </Button>
+                </button>
               </form>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+
       </div>
     </section>
   )

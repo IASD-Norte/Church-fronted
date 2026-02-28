@@ -9,8 +9,8 @@ export function HeroContactSection() {
       titulo1={HOME_TEXTS.HERO_TITLE_1}
       titulo2={HOME_TEXTS.HERO_TITLE_2}
       video={HOME_MEDIA.VIDEO_PATH}
-      buttonText={HOME_TEXTS.HERO_BUTTON_TEXT}
-      buttonHref={`#${HOME_TEXTS.HERO_BUTTON_TEXT}`}
+      buttonText="Contactanos"
+      buttonHref="#/contact"
     />
   );
 }
