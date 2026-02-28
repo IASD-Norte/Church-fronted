@@ -71,7 +71,7 @@ export default function GraphHome() {
     >
       {/* The Stats Section */}
       <div className="w-full max-w-7xl mx-auto px-6 mb-24 md:mb-36">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-6 lg:gap-14 w-full">
+        <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-center gap-y-12 gap-x-4 md:gap-6 lg:gap-14 w-full">
           <StatItem count={activeMembers} label="Miembros Activos" />
           <Divider />
           <StatItem count={smallGroups} label="Grupos Pequeños" />
