@@ -11,6 +11,7 @@ const About = lazy(() => import("@/domains/About").then(m => ({ default: m.About
 const Events = lazy(() => import("@/domains/events").then(m => ({ default: m.Events })));
 const Resources = lazy(() => import("@/domains/Resources").then(m => ({ default: m.Resources })));
 const Contact = lazy(() => import("@/domains/Contact").then(m => ({ default: m.Contact })));
+const DepartamentsIndex = lazy(() => import("@/domains/Departaments/components/DepartamentsIndexPage"));
 
 function App() {
   const router = createHashRouter([
@@ -50,14 +51,22 @@ function App() {
           ),
         },
         {
-        path: "/departamentos/:slug",
-        element: (
-          <Suspense fallback={null}>
-            <DepartmentPage />
-          </Suspense>
-        ),
-      },
-      {
+          path: "/departamentos",
+          element: (
+            <Suspense fallback={null}>
+              <DepartamentsIndex />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/departamentos/:slug",
+          element: (
+            <Suspense fallback={null}>
+              <DepartmentPage />
+            </Suspense>
+          ),
+        },
+        {
           path: "/contact",
           element: (
             <Suspense fallback={null}>
@@ -71,7 +80,7 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      
+
       <RouterProvider router={router} />
     </ThemeProvider>
   );

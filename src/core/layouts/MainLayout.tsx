@@ -18,7 +18,6 @@ export default function MainLayout() {
     <div className="min-h-screen scroll-smooth relative">
       <ScrollToTop />
 
-      {/* CONTENIDO SIEMPRE RENDERIZADO */}
       <NavigationMenuDemo />
 
       <main>
@@ -28,7 +27,6 @@ export default function MainLayout() {
       <Footer />
       <FloatingWhatsapp />
 
-      {/* LOADER SOLO COMO OVERLAY */}
       {isLoading && <Loader />}
     </div>
   )

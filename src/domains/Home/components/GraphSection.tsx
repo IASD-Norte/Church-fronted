@@ -5,7 +5,7 @@ export function GraphSection() {
   return (
     <section
       id={HOME_SECTION_IDS.GRAPHS}
-      className="panel min-h-screen bg-muted flex items-center justify-center"
+      className="panel w-full min-h-screen"
     >
       <GraphHome />
     </section>
