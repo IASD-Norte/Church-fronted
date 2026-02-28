@@ -49,7 +49,7 @@ export function AboutHeroSection() {
         </div>
 
         {/* Description */}
-        <div className="max-w-2xl mb-12">
+        <div className="max-w-2xl mb-2 md:mb-12 lg:mb-12">
           <p className="text-[#fcf9f4]/90 text-sm md:text-lg leading-relaxed font-medium">
             {ABOUT_TEXTS.DESCRIPTION}
           </p>
@@ -58,9 +58,9 @@ export function AboutHeroSection() {
         {/* CTA Button */}
         <a
           href={ABOUT_LINKS.HERO_BUTTON_HREF}
-          className="group flex flex-wrap items-center justify-center gap-3 px-8 py-4 border border-[#fcf9f4]/40 text-[#fcf9f4] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#fcf9f4] hover:text-black transition-all duration-300"
+          className="group flex flex-wrap items-center justify-center gap-3 px-6 py-4 mb-3 md:px-8 md:py-4 border border-[#fcf9f4]/40 text-[#fcf9f4] text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#fcf9f4] hover:text-black transition-all duration-300"
         >
-          {ABOUT_TEXTS.HERO_BUTTON} <span className="text-lg font-light transform group-hover:translate-x-1 transition-transform">→</span>
+          {ABOUT_TEXTS.HERO_BUTTON} <span className="text-base md:text-lg font-light transform group-hover:translate-x-1 transition-transform">→</span>
         </a>
 
       </div>

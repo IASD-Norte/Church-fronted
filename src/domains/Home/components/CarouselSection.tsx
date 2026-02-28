@@ -5,7 +5,7 @@ export function CarouselSection() {
   return (
     <section
       id={HOME_SECTION_IDS.CAROUSEL}
-      className="panel flex w-full justify-center bg-background p-20"
+      className="panel hidden md:block lg:flex w-full justify-center bg-background md:p-0 lg:p-20 md:!min-h-0 md:!h-fit lg:!min-h-[100vh] lg:!h-auto"
     >
       <Home />
     </section>

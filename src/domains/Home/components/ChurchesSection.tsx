@@ -36,7 +36,7 @@ export function ChurchesSection() {
   return (
     <section
       id={HOME_SECTION_IDS.CHURCHES}
-      className="w-full min-h-screen flex bg-background py-20"
+      className="w-full min-h-screen flex flex-col md:flex-row bg-background py-20"
     >
       {/* Left Panel */}
       <div className="w-full md:w-[30%] lg:w-[25%] h-auto md:h-full p-8 md:p-12 flex flex-col justify-between shrink-0 z-10 bg-background border-r border-[#16302b]/10 dark:border-zinc-800 relative shadow-[10px_0_20px_rgba(0,0,0,0.02)] dark:shadow-none">
