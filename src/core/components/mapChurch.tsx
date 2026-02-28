@@ -1,8 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
-import { MapPin } from "lucide-react";
-
 export default function WorldMapChurch() {
   return (
     <section className="w-full">

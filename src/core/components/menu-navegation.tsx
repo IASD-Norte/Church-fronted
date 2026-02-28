@@ -1,5 +1,4 @@
 import { ModeToggle } from "@/core/components/mode-toggle"
-import { ProfileLogin } from "@/core/components/profile-login"
 import { cn } from "@/shared/lib/utils"
 import { ChevronDown, Menu, X } from "lucide-react"
 import * as React from "react"
