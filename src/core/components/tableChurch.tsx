@@ -1,5 +1,3 @@
-"use client";
-
 import {
   flexRender,
   getCoreRowModel,
@@ -19,6 +17,7 @@ import type {
 
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { churchData, type Church } from "@/data/church";
 
 import { Button } from "@/core/components/ui/button";
 import { Input } from "@/core/components/ui/input";
@@ -40,13 +39,6 @@ import {
 } from "@/core/components/ui/dialog";
 
 import { cn } from "@/shared/lib/utils";
-
-type Church = {
-  name: string;
-  direccion: string;
-  description: string;
-  images?: string[];
-};
 
 /* =======================
    COLUMNAS (SIN CHECKS)
@@ -76,12 +68,20 @@ export function ChurchTable() {
      DATA
   ======================= */
   useEffect(() => {
-    fetch("/data/church.json")
-      .then((res) => res.json())
-      .then((json) => setData(json.bga))
+    let isMounted = true;
+
+    churchData()
+      .then((churchesList) => {
+        if (!isMounted) return;
+        setData(churchesList);
+      })
       .catch((err) =>
         console.error("Error cargando iglesias:", err)
       );
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   /* =======================

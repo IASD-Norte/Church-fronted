@@ -110,5 +110,4 @@ El Home utiliza `useScrollHomeTrigger` para crear una experiencia de scroll anim
 - Agregar hooks personalizados si se necesitan
 - Implementar servicios para llamadas a API
 - Añadir tests unitarios para cada componente
-- Considerar internacionalización (i18n) para los textos
 

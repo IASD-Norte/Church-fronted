@@ -1,6 +1,5 @@
-import { Button } from "react-day-picker";
+import { Button } from "@/core/components/ui/button";
 import { TextGenerateEffect } from "./ui/text-generate-effect";
-import { Link } from "react-router-dom";
 import { Play } from "lucide-react";
 import { useEffect, useRef } from "react";
 
@@ -56,9 +55,10 @@ export default function Home() {
               className="font-[Elgoc,ui-serif,Georgia,Cambria,'Times_New_Roman',Times,serif] font-medium text-[rgb(249,245,240)] text-[55px] leading-[65px] md:text-[65px] md:leading-[75px] lg:text-[90px] lg:leading-[100px] text-left"
             />
           </div>
-          <Link
+          <a
             target="_blank"
-            to="https://www.youtube.com/watch?v=sr6t9YlsQ3I&t=7601s"
+            rel="noopener noreferrer"
+            href="https://www.youtube.com/watch?v=sr6t9YlsQ3I&t=7601s"
             className="self-end md:self-auto"
           >
             <Button
@@ -66,7 +66,7 @@ export default function Home() {
             >
               <Play className="w-6 h-6" />
             </Button>
-          </Link>
+          </a>
         </div>
 
 

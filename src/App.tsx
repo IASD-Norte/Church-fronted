@@ -14,6 +14,12 @@ const Contact = lazy(() => import("@/domains/Contact").then(m => ({ default: m.C
 const DepartamentsIndex = lazy(() => import("@/domains/Departaments/components/DepartamentsIndexPage"));
 const GruposIndex = lazy(() => import("@/domains/Grupos/components/GruposIndexPage"));
 
+const routeFallback = (
+  <div className="flex min-h-[40vh] items-center justify-center text-sm text-muted-foreground">
+    Cargando contenido...
+  </div>
+);
+
 function App() {
   const router = createHashRouter([
     {
@@ -22,7 +28,7 @@ function App() {
         {
           path: "/",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <Home />
             </Suspense>
           ),
@@ -30,7 +36,7 @@ function App() {
         {
           path: "/nosotros",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <About />
             </Suspense>
           ),
@@ -38,7 +44,7 @@ function App() {
         {
           path: "/eventos",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <Events />
             </Suspense>
           ),
@@ -46,7 +52,7 @@ function App() {
         {
           path: "/recursos",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <Resources />
             </Suspense>
           ),
@@ -54,7 +60,7 @@ function App() {
         {
           path: "/departamentos",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <DepartamentsIndex />
             </Suspense>
           ),
@@ -62,7 +68,7 @@ function App() {
         {
           path: "/grupos",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <GruposIndex />
             </Suspense>
           ),
@@ -70,7 +76,7 @@ function App() {
         {
           path: "/departamentos/:slug",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <DepartmentPage />
             </Suspense>
           ),
@@ -78,7 +84,7 @@ function App() {
         {
           path: "/contact",
           element: (
-            <Suspense fallback={null}>
+            <Suspense fallback={routeFallback}>
               <Contact />
             </Suspense>
           ),

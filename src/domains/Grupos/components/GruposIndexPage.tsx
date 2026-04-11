@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
-
-type Church = {
-    name: string;
-    direccion: string;
-    description?: string;
-    images?: string[];
-    lat?: number;
-    lng?: number;
-};
+import { churchData, type Church } from "@/data/church";
 
 export default function GruposIndexPage() {
     const [churches, setChurches] = useState<Church[]>([]);
@@ -17,13 +9,18 @@ export default function GruposIndexPage() {
         // Scroll ariba al cargar la página
         window.scrollTo(0, 0);
 
-        fetch("/data/church.json")
-            .then((res) => res.json())
-            .then((json) => {
-                // Asignamos todos los grupos, o filtramos si es necesario.
-                setChurches(json.bga);
+        let isMounted = true;
+
+        churchData()
+            .then((churchesList) => {
+                if (!isMounted) return;
+                setChurches(churchesList);
             })
             .catch((err) => console.error("Error cargando iglesias:", err));
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return (

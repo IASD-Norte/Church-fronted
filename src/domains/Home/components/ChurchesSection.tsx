@@ -2,27 +2,26 @@ import { HOME_SECTION_IDS } from "../constants/homeConfig";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-
-type Church = {
-  name: string;
-  direccion: string;
-  description?: string;
-  images?: string[];
-};
+import { churchData, type Church } from "@/data/church";
 
 export function ChurchesSection() {
   const [churches, setChurches] = useState<Church[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/data/church.json")
-      .then((res) => res.json())
-      .then((json) => {
-        // Filter those with images or assign a default one
-        const valid = json.bga.filter((c: Church) => c.images && c.images.length > 0);
+    let isMounted = true;
+
+    churchData()
+      .then((churchesList) => {
+        if (!isMounted) return;
+        const valid = churchesList.filter((church) => church.images && church.images.length > 0);
         setChurches(valid);
       })
       .catch((err) => console.error("Error cargando iglesias:", err));
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const scroll = (direction: "left" | "right") => {

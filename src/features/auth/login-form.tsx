@@ -72,6 +72,7 @@ export function LoginForm({
                 <a
                   href="https://google.com"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="font-medium text-blue-400 hover:underline underline-offset-4"
                 >
                   Sign up

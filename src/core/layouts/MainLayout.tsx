@@ -10,7 +10,8 @@ export default function MainLayout() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1800)
+    // Keep a short transition while avoiding long artificial wait times.
+    const timer = setTimeout(() => setIsLoading(false), 400)
     return () => clearTimeout(timer)
   }, [])
 

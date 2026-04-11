@@ -144,6 +144,8 @@ export function TestimonialsSection() {
                         <img
                           src={resource.coverImage}
                           alt={`Portada de ${resource.title}`}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-[90%] object-contain p-2 transition-opacity duration-300 group-hover:opacity-10"
                         />
 
@@ -167,6 +169,7 @@ export function TestimonialsSection() {
                           <a
                             href={resource.actionLink}
                             target="_blank"
+                            rel="noopener noreferrer"
                             className={`
                               w-full py-3 px-4
                               rounded-sm

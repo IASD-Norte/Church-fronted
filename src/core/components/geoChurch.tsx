@@ -4,6 +4,9 @@ import 'leaflet/dist/leaflet.css';
 import { MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { churchData, type Church } from '@/data/church';
+
+type ChurchWithCoordinates = Church & { lat: number; lng: number };
 
 const churchIcon = L.icon({
   iconUrl: '/church.png',
@@ -14,23 +17,26 @@ const churchIcon = L.icon({
   shadowSize: [41, 41],
 });
 
-interface Iglesia {
-  name: string;
-  lat: number;
-  lng: number;
-  direccion: string;
-}
-
 export function Map() {
-  const [iglesias, setIglesias] = useState<Iglesia[]>([]);
+  const [iglesias, setIglesias] = useState<ChurchWithCoordinates[]>([]);
 
   useEffect(() => {
-    fetch('/data/church.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setIglesias(data.bga);
+    let isMounted = true;
+
+    churchData()
+      .then((churchesList) => {
+        if (!isMounted) return;
+        const withCoordinates = churchesList.filter(
+          (church): church is ChurchWithCoordinates =>
+            typeof church.lat === "number" && typeof church.lng === "number"
+        );
+        setIglesias(withCoordinates);
       })
       .catch((err) => console.error('Error cargando iglesias:', err));
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
