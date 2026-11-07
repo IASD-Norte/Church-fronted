@@ -11,16 +11,41 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    port: 5174,
+    // Solo el CMS puede embeber la landing (preview del editor)
+    headers: {
+      'Content-Security-Policy': 'frame-ancestors http://localhost:5173',
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        rewrite: (p) => p.replace(/^\/api/, ''),
+      },
+    },
+  },
+  preview: {
+    port: 4173,
+    headers: {
+      'Content-Security-Policy': 'frame-ancestors http://localhost:5173',
+    },
+  },
   build: {
-    chunkSizeWarningLimit: 1500, // aumenta el límite de advertencia a 1000 KB
+    chunkSizeWarningLimit: 1500,
+    // El bridge solo debe cargarse con ?cms-preview=1 en iframe — nunca preload al visitante
+    modulePreload: {
+      resolveDependencies: (_filename, deps) =>
+        deps.filter((dep) => !dep.includes('cms-bridge')),
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            // separa todas las librerías de node_modules en un chunk 'vendor'
-            return 'vendor';
+          if (id.includes('/features/cms-bridge/')) {
+            return 'cms-bridge'
           }
-          // puedes agregar más reglas aquí si quieres chunks específicos
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
         }
       }
     }

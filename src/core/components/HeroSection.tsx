@@ -9,6 +9,9 @@ interface HeroSectionProps {
   buttonText?: string;
   buttonHref?: string;
   buttonClassName?: string;
+  youtubeId?: string;
+  startSeconds?: number;
+  endSeconds?: number;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -17,6 +20,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   buttonText = "Contactanos",
   buttonHref = "/contact",
   buttonClassName = "",
+  youtubeId = "LenghWYt7Yc",
+  startSeconds = 19,
+  endSeconds = 60,
 }) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const text1Ref = useRef<HTMLHeadingElement>(null);
@@ -83,16 +89,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     };
   }, []);
 
-  // Use the provided youtube video ID or default to the user's requested video
-  const youtubeUrl = "https://www.youtube.com/embed/LenghWYt7Yc?autoplay=1&mute=1&loop=1&playlist=LenghWYt7Yc&controls=0&rel=0&start=19&end=60";
+  const youtubeUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&rel=0&start=${startSeconds}&end=${endSeconds}`;
 
   return (
     <section
       ref={heroRef}
+      data-cms-section="home_hero_contact"
       className="relative z-0 w-full h-[100vh] flex items-center justify-center bg-black text-white overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <iframe
+          data-cms="home_hero_contact.youtubeId"
+          data-cms-type="video"
           className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 object-cover scale-[1.15] opacity-60"
           src={youtubeUrl}
           title="Background Video"
@@ -106,12 +114,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="hero__content relative z-10 text-center flex flex-col items-center justify-center space-y-8 p-6 max-w-6xl mx-auto">
         <h1
           ref={text1Ref}
+          data-cms="home_hero_contact.title1"
+          data-cms-type="text"
           className="text-5xl md:text-6xl lg:text-[80px] font-serif text-[#fcf9f4] leading-[1.1] tracking-tight drop-shadow-2xl"
         >
           {titulo1}
         </h1>
         <h2
           ref={text2Ref}
+          data-cms="home_hero_contact.title2"
+          data-cms-type="text"
           className="text-xs md:text-sm lg:text-base tracking-[0.25em] uppercase font-semibold text-[#fcf9f4]/80 opacity-0 px-4 max-w-4xl leading-relaxed"
         >
           {titulo2}
@@ -121,6 +133,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <a
             href={buttonHref}
             ref={buttonRef}
+            data-cms="home_hero_contact.buttonText"
+            data-cms-type="text"
             className={`group mt-10 flex items-center justify-center gap-4 px-8 py-4 border border-[#fcf9f4]/40 text-[#fcf9f4] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#fcf9f4] hover:text-black transition-all duration-300 relative z-20 pointer-events-auto opacity-0 ${buttonClassName}`}
           >
             {buttonText} <span className="text-xl font-light transform group-hover:translate-x-1 transition-transform">→</span>

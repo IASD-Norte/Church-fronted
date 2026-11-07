@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
+import { useContent, DEFAULT_GRUPOS_PAGE } from "@/features/content";
 
 type Church = {
     name: string;
@@ -12,6 +13,7 @@ type Church = {
 
 export default function GruposIndexPage() {
     const [churches, setChurches] = useState<Church[]>([]);
+    const page = useContent("grupos_page", DEFAULT_GRUPOS_PAGE);
 
     useEffect(() => {
         // Scroll ariba al cargar la página
@@ -27,13 +29,25 @@ export default function GruposIndexPage() {
     }, []);
 
     return (
-        <section className="w-full flex flex-col min-h-screen bg-background">
+        <section
+            data-cms-section="grupos_page"
+            className="w-full flex flex-col min-h-screen bg-background"
+        >
 
             {/* Header Estilo Referencia */}
-            <div className="w-full bg-[url(https://yt3.googleusercontent.com/bLVFMOMC6WM6akoAJrC0VsRc7E82M2ThLV51b9WfLi2SOg_DFxaSxJVwSbyuqFdsU6AV1lYi=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj)] bg-cover bg-center flex flex-col items-center justify-center py-16 px-6 mt-16 md:mt-24">
+            <div
+                data-cms="grupos_page.headerBackgroundUrl"
+                data-cms-type="image"
+                className="w-full bg-cover bg-center flex flex-col items-center justify-center py-16 px-6 mt-16 md:mt-24"
+                style={{ backgroundImage: `url(${page.headerBackgroundUrl})` }}
+            >
                 <div className="w-full max-w-6xl flex flex-col items-start gap-4">
-                    <h1 className="text-4xl md:text-5xl lg:text-5xl font-serif text-white leading-tight">
-                        Proyecto | Grupos Pequeños
+                    <h1
+                        data-cms="grupos_page.title"
+                        data-cms-type="text"
+                        className="text-4xl md:text-5xl lg:text-5xl font-serif text-white leading-tight"
+                    >
+                        {page.title}
                     </h1>
                 </div>
             </div>
@@ -45,8 +59,10 @@ export default function GruposIndexPage() {
                 <div className="flex flex-col md:flex-row w-full gap-6">
                     <div className="w-full md:w-1/2 aspect-video md:aspect-[4/3] relative overflow-hidden bg-muted">
                         <img
-                            src="/images/mas/4.jpg"
+                            src={page.imageUrl}
                             alt="Personas orando"
+                            data-cms="grupos_page.imageUrl"
+                            data-cms-type="image"
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -55,27 +71,49 @@ export default function GruposIndexPage() {
                         {/* Decorative Frame Elements */}
                         <div className="absolute inset-4 border border-[#bd5c5c]/20 opacity-50 pointer-events-none" />
 
-                        <h3 className="font-['Brush_Script_MT',cursive,serif] text-5xl md:text-6xl text-[#16302b] dark:text-zinc-300 mb-2 mt-4 transform -rotate-2">
-                            Liderazgo
+                        <h3
+                            data-cms="grupos_page.leadershipLabel"
+                            data-cms-type="text"
+                            className="font-['Brush_Script_MT',cursive,serif] text-5xl md:text-6xl text-[#16302b] dark:text-zinc-300 mb-2 mt-4 transform -rotate-2"
+                        >
+                            {page.leadershipLabel}
                         </h3>
                         <div className="flex items-center gap-4 text-[#bd5c5c] my-4">
                             <span className="h-px w-8 bg-[#bd5c5c]" />
-                            <span className="font-serif italic text-lg text-[#16302b] dark:text-zinc-300">EN</span>
+                            <span
+                                data-cms="grupos_page.leadershipMiddle"
+                                data-cms-type="text"
+                                className="font-serif italic text-lg text-[#16302b] dark:text-zinc-300"
+                            >
+                                {page.leadershipMiddle}
+                            </span>
                             <span className="h-px w-8 bg-[#bd5c5c]" />
                         </div>
-                        <h2 className="text-3xl font-serif text-[#3b4b6b] dark:text-zinc-400 leading-snug tracking-wide uppercase font-semibold">
-                            GRUPOS<br />PEQUEÑOS
+                        <h2
+                            data-cms="grupos_page.leadershipHeading"
+                            data-cms-type="text"
+                            className="text-3xl font-serif text-[#3b4b6b] dark:text-zinc-400 leading-snug tracking-wide uppercase font-semibold whitespace-pre-line"
+                        >
+                            {page.leadershipHeading}
                         </h2>
                     </div>
                 </div>
 
                 {/* Text Paragraphs */}
                 <div className="flex flex-col md:flex-row w-full gap-8 md:gap-16 mt-6">
-                    <div className="w-full md:w-1/2 text-muted-foreground text-sm md:text-base leading-relaxed text-justify">
-                        Los grupos pequeños (GP) están compuestos por varias personas que se reúnen una vez a la semana con el propósito de estudiar la Biblia. La IASD toma este modelo de la experiencia de los primeros cristianos. Las reuniones son conducidas por un líder, quien dirige el estudio bíblico, apoyado también por una serie de materiales editados por la IASD. Los objetivos de los GP son: a) incentivar a las personas a experimentar el compañerismo y el crecimiento espiritual.
+                    <div
+                        data-cms="grupos_page.bodyLeft"
+                        data-cms-type="textarea"
+                        className="w-full md:w-1/2 text-muted-foreground text-sm md:text-base leading-relaxed text-justify"
+                    >
+                        {page.bodyLeft}
                     </div>
-                    <div className="w-full md:w-1/2 text-muted-foreground text-sm md:text-base leading-relaxed text-justify">
-                        e) promover la multiplicación del grupo con nuevos amigos y futuros miembros de la iglesia. La celebración de la amistad en pequeños grupos es una estrategia apropiada, porque permite fortalecer las relaciones interpersonales basadas en la hermandad y la fe, fomenta el desarrollo de los dones espirituales, favorece lazos de amistad entre los participantes por medio del intercambio de ideas y experiencias, y conduce al estudio profundo de la Palabra de Dios.
+                    <div
+                        data-cms="grupos_page.bodyRight"
+                        data-cms-type="textarea"
+                        className="w-full md:w-1/2 text-muted-foreground text-sm md:text-base leading-relaxed text-justify"
+                    >
+                        {page.bodyRight}
                     </div>
                 </div>
             </div>
@@ -84,8 +122,12 @@ export default function GruposIndexPage() {
             <div className="w-full max-w-7xl mx-auto px-6 py-20">
 
                 <div className="flex flex-col items-center text-center mb-16 gap-4">
-                    <h2 className="text-4xl md:text-5xl font-serif text-primary dark:text-zinc-100 mb-2">
-                        Conoce nuestros grupos
+                    <h2
+                        data-cms="grupos_page.gridHeading"
+                        data-cms-type="text"
+                        className="text-4xl md:text-5xl font-serif text-primary dark:text-zinc-100 mb-2"
+                    >
+                        {page.gridHeading}
                     </h2>
                     <div className="w-16 h-1 bg-[#bd5c5c]" />
                 </div>
@@ -94,10 +136,13 @@ export default function GruposIndexPage() {
                     {churches.map((church, idx) => {
                         const hasImage = church.images && church.images.length > 0;
                         const imgSrc = hasImage ? church.images![0] : "/images/mas/5.jpg";
+                        const cmsId = church.name || String(idx);
 
                         return (
                             <div
                                 key={idx}
+                                data-cms-collection="grupos"
+                                data-cms-id={cmsId}
                                 className="group flex flex-col bg-card border border-border/50 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-sm"
                             >
                                 <div className="w-full aspect-[4/3] overflow-hidden relative">

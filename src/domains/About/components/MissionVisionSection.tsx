@@ -1,37 +1,20 @@
-import { MISSION_VISION } from "../constants/aboutConfig";
+import { useContent, DEFAULT_ABOUT_MISSION } from "@/features/content";
 
 export function MissionVisionSection() {
-  const items = [
-    {
-      id: "01",
-      title: MISSION_VISION.MISSION.TITLE,
-      description: MISSION_VISION.MISSION.DESCRIPTION,
-    },
-    {
-      id: "02",
-      title: MISSION_VISION.VISION.TITLE,
-      description: MISSION_VISION.VISION.DESCRIPTION,
-    },
-    {
-      id: "03",
-      title: "Nuestros Valores",
-      description:
-        "Promovemos la fe, el servicio, la unidad, el compromiso con la comunidad y la esperanza en Cristo, guiando cada acción de nuestra iglesia local.",
-    },
-    {
-      id: "04",
-      title: "Nuestro Compromiso",
-      description:
-        "Nos dedicamos a compartir el mensaje del evangelio, acompañar a las familias, fortalecer la juventud y servir con amor siguiendo el ejemplo de Jesús.",
-    },
-  ];
+  const mission = useContent("about_mission", DEFAULT_ABOUT_MISSION);
+  const items = mission.items?.length ? mission.items : DEFAULT_ABOUT_MISSION.items;
 
   return (
-    <div className="w-full max-w-7xl mx-auto py-12 px-6 lg:px-16">
+    <div
+      data-cms-section="about_mission"
+      className="w-full max-w-7xl mx-auto py-12 px-6 lg:px-16"
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <div
             key={item.id}
+            data-cms={`about_mission.items.${index}`}
+            data-cms-type="list-item"
             className="group relative bg-[#fcf9f4] dark:bg-zinc-900/50 p-10 md:p-14 border border-border/50 transition-all duration-300 hover:shadow-xl rounded-sm hover:-translate-y-1"
           >
             {/* Elegant Number */}

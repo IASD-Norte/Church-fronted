@@ -1,19 +1,26 @@
 import { MousePointerClick } from "lucide-react";
-import { ABOUT_LINKS, ABOUT_MEDIA, ABOUT_TEXTS } from "../constants/aboutConfig";
+import { useContent, DEFAULT_ABOUT_HERO } from "@/features/content";
 
 /**
  * Sección Hero de la página About
  */
 export function AboutHeroSection() {
+  const hero = useContent("about_hero", DEFAULT_ABOUT_HERO);
+
   return (
-    <section className="relative w-full min-h-[80vh] flex items-center justify-center bg-background mt-20">
+    <section
+      data-cms-section="about_hero"
+      className="relative w-full min-h-[80vh] flex items-center justify-center bg-background mt-20"
+    >
 
       {/* Background Image full bleed */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div
+          data-cms="about_hero.backgroundImageUrl"
+          data-cms-type="image"
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('${ABOUT_MEDIA.HERO_BACKGROUND}')`,
+            backgroundImage: `url('${hero.backgroundImageUrl}')`,
           }}
         />
         {/* Elegant Dark Overlay */}
@@ -25,42 +32,62 @@ export function AboutHeroSection() {
 
         {/* Top Mini Header / Decorative Elements */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
-          <span className="text-white/80 font-bold text-xs tracking-[0.2em] uppercase">
-            {ABOUT_TEXTS.VISIT_US}
+          <span
+            data-cms="about_hero.visitLabel"
+            data-cms-type="text"
+            className="text-white/80 font-bold text-xs tracking-[0.2em] uppercase"
+          >
+            {hero.visitLabel}
           </span>
           <div className="hidden md:block h-[1px] w-12 bg-[#dfa83d]/50" />
           <a
-            href={ABOUT_LINKS.JOIN_US_HREF}
+            href={hero.joinHref}
+            data-cms="about_hero.joinLabel"
+            data-cms-type="text"
             className="flex items-center gap-2 group transition-transform text-xs tracking-[0.2em] uppercase hover:scale-105 text-[#dfa83d] font-semibold"
           >
-            {ABOUT_TEXTS.JOIN_US}
+            {hero.joinLabel}
             <MousePointerClick className="h-4 w-4 text-[#dfa83d] group-hover:text-white transition-colors" />
           </a>
         </div>
 
         {/* Main Title */}
         <div className="max-w-4xl mb-8">
-          <h1 className="text-5xl md:text-7xl lg:text-[80px] font-serif text-[#fcf9f4] leading-[1.05] tracking-tight drop-shadow-lg">
-            {ABOUT_TEXTS.TITLE_1}
+          <h1
+            data-cms="about_hero.title1"
+            data-cms-type="text"
+            className="text-5xl md:text-7xl lg:text-[80px] font-serif text-[#fcf9f4] leading-[1.05] tracking-tight drop-shadow-lg"
+          >
+            {hero.title1}
           </h1>
-          <h2 className="text-4xl md:text-6xl lg:text-[60px] font-serif text-[#dfa83d] leading-[1.1] transform -rotate-1 mt-2">
-            {ABOUT_TEXTS.TITLE_2}
+          <h2
+            data-cms="about_hero.title2"
+            data-cms-type="text"
+            className="text-4xl md:text-6xl lg:text-[60px] font-serif text-[#dfa83d] leading-[1.1] transform -rotate-1 mt-2"
+          >
+            {hero.title2}
           </h2>
         </div>
 
         {/* Description */}
         <div className="max-w-2xl mb-2 md:mb-12 lg:mb-12">
-          <p className="text-[#fcf9f4]/90 text-sm md:text-lg leading-relaxed font-medium">
-            {ABOUT_TEXTS.DESCRIPTION}
+          <p
+            data-cms="about_hero.description"
+            data-cms-type="textarea"
+            className="text-[#fcf9f4]/90 text-sm md:text-lg leading-relaxed font-medium"
+          >
+            {hero.description}
           </p>
         </div>
 
         {/* CTA Button */}
         <a
-          href={ABOUT_LINKS.HERO_BUTTON_HREF}
+          href={hero.ctaHref}
+          data-cms="about_hero.ctaLabel"
+          data-cms-type="text"
           className="group flex flex-wrap items-center justify-center gap-3 px-6 py-4 mb-3 md:px-8 md:py-4 border border-[#fcf9f4]/40 text-[#fcf9f4] text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#fcf9f4] hover:text-black transition-all duration-300"
         >
-          {ABOUT_TEXTS.HERO_BUTTON} <span className="text-base md:text-lg font-light transform group-hover:translate-x-1 transition-transform">→</span>
+          {hero.ctaLabel} <span className="text-base md:text-lg font-light transform group-hover:translate-x-1 transition-transform">→</span>
         </a>
 
       </div>

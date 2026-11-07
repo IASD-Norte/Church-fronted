@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { cn } from "@/shared/lib/utils";
-import { ABOUT_SECTION_IDS, ABOUT_TEXTS } from "../constants/aboutConfig";
+import { ABOUT_SECTION_IDS } from "../constants/aboutConfig";
 import { HistorySection } from "./HistorySection";
 import { MissionVisionSection } from "./MissionVisionSection";
 import { BeliefsSection } from "./BeliefsSection";
 import { BrandSlider } from "./BrandSlider";
 import { VerseSection } from "./VerseSection";
+import { useContent, DEFAULT_ABOUT_INTRO } from "@/features/content";
 
 /**
  * Sección de contenido principal de la página About
@@ -13,10 +14,12 @@ import { VerseSection } from "./VerseSection";
  */
 export function AboutContentSection() {
   const [showVerse, setShowVerse] = useState(false);
+  const intro = useContent("about_intro", DEFAULT_ABOUT_INTRO);
 
   return (
     <section
       id={ABOUT_SECTION_IDS.CONTENT}
+      data-cms-section="about_intro"
       className={cn(
         "panel flex flex-col items-center",
         "w-full pb-20 px-4 md:px-8 lg:px-20",
@@ -39,18 +42,25 @@ export function AboutContentSection() {
       <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl mx-auto px-6 lg:px-16 text-center lg:text-left items-center lg:items-start lg:justify-between mb-8">
         <div className="flex flex-col gap-6 w-full lg:w-auto items-center lg:items-start">
           <div className="flex">
-            <h2 className={cn(
+            <h2
+              data-cms="about_intro.title"
+              data-cms-type="text"
+              className={cn(
               "text-4xl md:text-5xl lg:text-[56px] font-serif",
               "text-primary dark:text-zinc-100 tracking-tight leading-tight"
             )}>
-              {ABOUT_TEXTS.CONTENT_TITLE}
+              {intro.title}
             </h2>
           </div>
           <div className="w-24 h-[1px] bg-[#dfa83d] rounded-full" />
         </div>
 
-        <p className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed mt-2">
-          {ABOUT_TEXTS.CONTENT_SUBTITLE}
+        <p
+          data-cms="about_intro.subtitle"
+          data-cms-type="textarea"
+          className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed mt-2"
+        >
+          {intro.subtitle}
         </p>
       </div>
 

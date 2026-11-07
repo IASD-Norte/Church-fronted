@@ -6,8 +6,10 @@ import { useState } from "react"
 import emailjs from "emailjs-com"
 import WorldMapDemo from "./mapChurch"
 import { cn } from "@/shared/lib/utils"
+import { useContent, DEFAULT_CONTACT_FORM } from "@/features/content"
 
 export default function Contact() {
+  const copy = useContent("contact_form", DEFAULT_CONTACT_FORM)
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -53,20 +55,31 @@ export default function Contact() {
   }
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center bg-background py-20 px-6 lg:px-16 overflow-hidden">
+    <section
+      data-cms-section="contact_form"
+      className="w-full min-h-screen flex items-center justify-center bg-background py-20 px-6 lg:px-16 overflow-hidden"
+    >
       <div className="w-full max-w-7xl flex flex-col lg:flex-row items-stretch gap-12 lg:gap-20">
 
         {/* Left Side: Map / Location */}
         <div className="w-full lg:w-1/2 flex flex-col items-start justify-center">
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary/60 dark:text-zinc-400">
-              Ubicación
+            <span
+              data-cms="contact_form.locationEyebrow"
+              data-cms-type="text"
+              className="text-xs font-bold tracking-[0.2em] uppercase text-primary/60 dark:text-zinc-400"
+            >
+              {copy.locationEyebrow}
             </span>
             <div className="h-[1px] w-12 bg-primary/30 dark:bg-zinc-700" />
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-[56px] font-serif text-primary dark:text-zinc-100 leading-[1.1] tracking-tight mb-8">
-            Encuéntranos en <br className="hidden md:block" /> Norte Bucaramanga
+          <h2
+            data-cms="contact_form.locationHeading"
+            data-cms-type="text"
+            className="text-4xl md:text-5xl lg:text-[56px] font-serif text-primary dark:text-zinc-100 leading-[1.1] tracking-tight mb-8"
+          >
+            {copy.locationHeading}
           </h2>
 
           <div className="w-full aspect-[4/3] rounded-sm overflow-hidden border border-border/50 shadow-xl relative">
@@ -75,8 +88,12 @@ export default function Contact() {
 
           <div className="flex items-start gap-4 mt-8 text-primary/80 dark:text-zinc-300">
             <MapPin className="w-6 h-6 shrink-0 mt-1" />
-            <p className="text-lg md:text-xl font-serif">
-              Estamos ubicados en diferentes sectores de la zona norte. ¡Visítanos o escríbenos para más detalles!
+            <p
+              data-cms="contact_form.locationBody"
+              data-cms-type="textarea"
+              className="text-lg md:text-xl font-serif"
+            >
+              {copy.locationBody}
             </p>
           </div>
         </div>
@@ -87,19 +104,36 @@ export default function Contact() {
 
             {/* Decorative Label */}
             <div className="absolute top-0 right-10 transform -translate-y-1/2 bg-primary text-white dark:bg-zinc-100 dark:text-zinc-900 px-6 py-2">
-              <span className="text-xs font-bold tracking-[0.25em] uppercase">Contacto</span>
+              <span
+                data-cms="contact_form.formBadge"
+                data-cms-type="text"
+                className="text-xs font-bold tracking-[0.25em] uppercase"
+              >
+                {copy.formBadge}
+              </span>
             </div>
 
             <div className="mb-10 mt-4">
-              <h3 className="font-['Brush_Script_MT',cursive,serif] text-4xl text-primary dark:text-zinc-100 mb-4 transform -rotate-2">
-                Escríbenos
+              <h3
+                data-cms="contact_form.formScriptHeading"
+                data-cms-type="text"
+                className="font-['Brush_Script_MT',cursive,serif] text-4xl text-primary dark:text-zinc-100 mb-4 transform -rotate-2"
+              >
+                {copy.formScriptHeading}
               </h3>
-              <h4 className="text-3xl md:text-4xl font-serif text-primary dark:text-zinc-100 leading-tight">
-                Envía tu mensaje o<br />
-                tu <span className="italic text-primary/80">petición de oración</span>
+              <h4
+                data-cms="contact_form.formTitle"
+                data-cms-type="text"
+                className="text-3xl md:text-4xl font-serif text-primary dark:text-zinc-100 leading-tight"
+              >
+                {copy.formTitle}
               </h4>
-              <p className="text-muted-foreground mt-4 text-sm md:text-base">
-                Completa el formulario a continuación y estaremos comunicándonos u orando por ti muy pronto.
+              <p
+                data-cms="contact_form.formSubtitle"
+                data-cms-type="textarea"
+                className="text-muted-foreground mt-4 text-sm md:text-base"
+              >
+                {copy.formSubtitle}
               </p>
             </div>
 
@@ -109,11 +143,19 @@ export default function Contact() {
                   <CheckCircle2 className="w-10 h-10 text-[#dfa83d]" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-serif text-primary dark:text-zinc-100 mb-2">
-                    ¡Mensaje enviado con éxito!
+                  <h3
+                    data-cms="contact_form.successTitle"
+                    data-cms-type="text"
+                    className="text-2xl font-serif text-primary dark:text-zinc-100 mb-2"
+                  >
+                    {copy.successTitle}
                   </h3>
-                  <p className="text-muted-foreground">
-                    Gracias por ponerte en contacto. Dios te bendiga.
+                  <p
+                    data-cms="contact_form.successBody"
+                    data-cms-type="textarea"
+                    className="text-muted-foreground"
+                  >
+                    {copy.successBody}
                   </p>
                 </div>
               </div>
@@ -121,8 +163,12 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-6">
 
                 <div className="space-y-3">
-                  <Label className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1">
-                    Nombre completo
+                  <Label
+                    data-cms="contact_form.nameLabel"
+                    data-cms-type="text"
+                    className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1"
+                  >
+                    {copy.nameLabel}
                   </Label>
                   <Input
                     name="nombre"
@@ -131,13 +177,19 @@ export default function Contact() {
                     required
                     disabled={enviando}
                     className="border-0 border-b border-primary/20 ml-1 bg-transparent rounded-none px-1 focus-visible:ring-0 focus-visible:border-primary dark:bg-transparent md:text-lg h-12 shadow-none"
-                    placeholder="Tu nombre completo"
+                    placeholder={copy.namePlaceholder}
+                    data-cms="contact_form.namePlaceholder"
+                    data-cms-type="text"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <Label className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1">
-                    Correo electrónico
+                  <Label
+                    data-cms="contact_form.emailLabel"
+                    data-cms-type="text"
+                    className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1"
+                  >
+                    {copy.emailLabel}
                   </Label>
                   <Input
                     type="email"
@@ -147,13 +199,19 @@ export default function Contact() {
                     required
                     disabled={enviando}
                     className="border-0 ml-1 border-b border-primary/20 bg-transparent rounded-none px-1 focus-visible:ring-0 focus-visible:border-primary dark:bg-transparent  md:text-lg h-12 shadow-none"
-                    placeholder="tucorreo@ejemplo.com"
+                    placeholder={copy.emailPlaceholder}
+                    data-cms="contact_form.emailPlaceholder"
+                    data-cms-type="text"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <Label className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1">
-                    ¿Cómo podemos ayudarte?
+                  <Label
+                    data-cms="contact_form.messageLabel"
+                    data-cms-type="text"
+                    className="text-xs font-semibold tracking-widest uppercase text-primary/70 dark:text-zinc-400 ml-1"
+                  >
+                    {copy.messageLabel}
                   </Label>
                   <Textarea
                     name="mensaje"
@@ -162,13 +220,17 @@ export default function Contact() {
                     required
                     disabled={enviando}
                     className="border-0 ml-1 border-b border-primary/20 bg-transparent rounded-none px-1 focus-visible:ring-0 focus-visible:border-primary dark:bg-transparent min-h-[120px] md:text-lg resize-none shadow-none"
-                    placeholder="Escribe tu mensaje o petición de oración aquí..."
+                    placeholder={copy.messagePlaceholder}
+                    data-cms="contact_form.messagePlaceholder"
+                    data-cms-type="textarea"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={enviando}
+                  data-cms="contact_form.submitLabel"
+                  data-cms-type="text"
                   className={cn(
                     "group w-full flex items-center justify-center gap-4 px-8 py-5 mt-8",
                     "border border-primary/40 dark:border-zinc-700 bg-transparent",
@@ -180,11 +242,13 @@ export default function Contact() {
                   {enviando ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      ENVIANDO...
+                      <span data-cms="contact_form.submittingLabel" data-cms-type="text">
+                        {copy.submittingLabel}
+                      </span>
                     </>
                   ) : (
                     <>
-                      ENVIAR MENSAJE
+                      {copy.submitLabel}
                       <Send className="w-4 h-4 ml-2 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </>
                   )}

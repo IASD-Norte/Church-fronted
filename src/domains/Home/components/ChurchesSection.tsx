@@ -2,6 +2,7 @@ import { HOME_SECTION_IDS } from "../constants/homeConfig";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContent, DEFAULT_HOME_CHURCHES } from "@/features/content";
 
 type Church = {
   name: string;
@@ -13,6 +14,7 @@ type Church = {
 export function ChurchesSection() {
   const [churches, setChurches] = useState<Church[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const copy = useContent("home_churches", DEFAULT_HOME_CHURCHES);
 
   useEffect(() => {
     fetch("/data/church.json")
@@ -36,24 +38,35 @@ export function ChurchesSection() {
   return (
     <section
       id={HOME_SECTION_IDS.CHURCHES}
+      data-cms-section="home_churches"
       className="w-full min-h-screen flex flex-col md:flex-row bg-background py-20"
     >
       {/* Left Panel */}
       <div className="w-full md:w-[30%] lg:w-[25%] h-auto md:h-full p-8 md:p-12 flex flex-col justify-between shrink-0 z-10 bg-background border-r border-[#16302b]/10 dark:border-zinc-800 relative shadow-[10px_0_20px_rgba(0,0,0,0.02)] dark:shadow-none">
 
         <div className="flex flex-col items-start pt-4 md:pt-10">
-          <p className="font-['Brush_Script_MT',cursive,serif] italic text-3xl md:text-4xl text-primary mb-2 transform -rotate-2">
-            Explora
+          <p
+            data-cms="home_churches.eyebrow"
+            data-cms-type="text"
+            className="font-['Brush_Script_MT',cursive,serif] italic text-3xl md:text-4xl text-primary mb-2 transform -rotate-2"
+          >
+            {copy.eyebrow}
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-5xl font-serif text-primary dark:text-zinc-100 leading-tight tracking-tight mb-8 md:mb-12">
-            Nuestros Grupos Pequeños
+          <h2
+            data-cms="home_churches.heading"
+            data-cms-type="text"
+            className="text-4xl md:text-5xl lg:text-5xl font-serif text-primary dark:text-zinc-100 leading-tight tracking-tight mb-8 md:mb-12"
+          >
+            {copy.heading}
           </h2>
 
           <Link
-            to="/grupos"
+            to={copy.ctaHref}
+            data-cms="home_churches.ctaLabel"
+            data-cms-type="text"
             className="group flex flex-wrap items-center gap-3 px-6 mb-3 py-3 border border-primary/40 dark:border-zinc-700 text-primary dark:text-zinc-300 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-primary hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-900 transition-all duration-300"
           >
-            Todos los grupos <span className="text-lg font-light transform group-hover:translate-x-1 transition-transform">→</span>
+            {copy.ctaLabel} <span className="text-lg font-light transform group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
 
@@ -84,6 +97,8 @@ export function ChurchesSection() {
         {churches.map((church, idx) => (
           <div
             key={idx}
+            data-cms-collection="grupos"
+            data-cms-id={church.name || String(idx)}
             className="h-full w-[85vw] sm:w-[50vw] md:w-[350px] lg:w-[420px] shrink-0 snap-start relative group cursor-pointer border-r border-primary/40 dark:border-zinc-800 overflow-hidden"
           >
             <img
@@ -116,4 +131,3 @@ export function ChurchesSection() {
     </section>
   );
 }
-
