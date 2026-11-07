@@ -25,13 +25,11 @@ export function LoginForm({
                 </p>
               </div>
 
-              {/* Email */}
               <div className="grid gap-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-200">
                   Email
                 </Label>
                 <Input
-                  id="email"
                   type="email"
                   placeholder="m@example.com"
                   className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400"

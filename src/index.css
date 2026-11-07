@@ -3,6 +3,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  font-family: 'Ppneuemontreal', 'Work Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  overflow-x: hidden;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -43,11 +51,11 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #fcf9f4;
   --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
+  --card: #fcf9f4;
   --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
+  --popover: #fcf9f4;
   --popover-foreground: oklch(0.141 0.005 285.823);
   --primary: oklch(0.21 0.006 285.885);
   --primary-foreground: oklch(0.985 0 0);
@@ -114,7 +122,48 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 18s linear infinite;
+  }
+}
+
+/* 📱 Móvil - 200px */
+#timelineTrack,
+#timelineContainer {
+  height: 180rem;
+}
+
+@media (min-width: 640px) {
+
+  /* 📲 Tablet - 260px */
+  #timelineTrack,
+  #timelineContainer {
+    height: 1100px;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* 💻 Desktop - 300px */
+  #timelineTrack,
+  #timelineContainer {
+    height: 1100px;
   }
 }
