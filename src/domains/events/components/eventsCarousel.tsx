@@ -3,80 +3,23 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowRightIcon,
+  CalendarX,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import type { CalendarEvent } from "@/domains/events/utils/calendar.utils";
-import { addToCalendar } from "@/domains/events/utils/calendar.utils";
+import { EventDetailsModal } from "@/core/components/EventDetailsModal";
+import { EVENTS_SECTION_IDS } from "@/domains/events/constants/eventsConfig";
+import { formatEventDateLabel, useUpcomingEvents } from "@/features/events";
 
-// 🔹 Eventos con fechas REALES
-const events: CalendarEvent[] = [
-  {
-    id: 8,
-    name: "Retiro Espiritual de Sanidad",
-    description:
-      "Un encuentro transformador con Dios. Un día de renovación espiritual, oración y sanidad integral.",
-    category: "Evento Espiritual",
-    dateLabel: "Sábado, 16 de Noviembre de 2025",
-    startDate: "2025-11-16T09:00:00-05:00",
-    endDate: "2025-11-16T17:00:00-05:00",
-    location: "Iglesia Central",
-    imageUrl:
-      "https://es.armsa.com/wp-content/uploads/2018/01/Capa-Face-Acamp-Verao-ARM-2018-Esp_3000px.jpg",
-  },
-  {
-    id: 9,
-    name: "Conferencia de Avivamiento 2025",
-    description:
-      "Tres días de renovación espiritual, milagros y palabra viva.",
-    category: "Conferencia Cristiana",
-    dateLabel: "21 al 23 de Noviembre de 2025",
-    startDate: "2025-11-21T18:00:00-05:00",
-    endDate: "2025-11-23T21:00:00-05:00",
-    location: "Auditorio Principal",
-    imageUrl:
-      "https://files.adventistas.org/downloads_v2/es/2024/10/22185443/Capa.jpg",
-  },
-  {
-    id: 10,
-    name: "Noche de Adoración y Milagros",
-    description:
-      "Una noche donde los cielos se abren. Ven con fe y expectativa.",
-    category: "Evento Espiritual",
-    dateLabel: "Sábado, 23 de Noviembre de 2025",
-    startDate: "2025-11-23T19:00:00-05:00",
-    endDate: "2025-11-23T22:00:00-05:00",
-    location: "Iglesia Adventista Norte",
-    imageUrl: "https://i.ytimg.com/vi/9UKPeLll7Pk/hq720.jpg",
-  },
-  {
-    id: 11,
-    name: "Taller de Liderazgo Juvenil",
-    description: "Capacitación intensiva para líderes jóvenes.",
-    category: "Capacitación Ministerial",
-    dateLabel: "Domingo, 17 de Noviembre de 2025",
-    startDate: "2025-11-17T08:00:00-05:00",
-    endDate: "2025-11-17T13:00:00-05:00",
-    location: "Salón Juvenil",
-    imageUrl:
-      "https://i.ytimg.com/vi/12_uwZnBBVM/maxresdefault.jpg",
-  },
-  {
-    id: 12,
-    name: "Campamento Conquistadores",
-    description: "Tres días para fortalecer la unión familiar.",
-    category: "Campamento Familiar",
-    dateLabel: "22 al 24 de Noviembre de 2025",
-    startDate: "2025-11-22T08:00:00-05:00",
-    endDate: "2025-11-24T17:00:00-05:00",
-    location: "Centro Campestre",
-    imageUrl:
-      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/flags%2C-pathfinders%2C-conquistadores%2C-adventist-design-template-2de78eb0694895dba3344950549a7896_screen.jpg",
-  },
-];
+const scrollToCalendar = () =>
+  document
+    .getElementById(EVENTS_SECTION_IDS.CALENDAR)
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
 
 export function EventsCarousel() {
+  const { events, status } = useUpcomingEvents();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (direction: "left" | "right") => {
@@ -105,7 +48,7 @@ export function EventsCarousel() {
 
     carousel.addEventListener("scroll", onScroll);
     return () => carousel.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [events.length]);
 
   const getVisibleCount = () => {
     if (typeof window === "undefined") return 1;
@@ -118,7 +61,10 @@ export function EventsCarousel() {
   const maxIndex = Math.max(0, events.length - getVisibleCards());
 
   return (
-    <section className="w-full py-20 md:py-32 bg-background">
+    <section
+      data-cms-collection="events"
+      className="w-full py-20 md:py-32 bg-background"
+    >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
 
         {/* Header Section */}
@@ -133,13 +79,29 @@ export function EventsCarousel() {
           </div>
 
           <div className="hidden md:block">
-            <button className="px-8 py-3 border border-primary/40 dark:border-zinc-700 text-xs font-semibold tracking-[0.2em] uppercase text-primary dark:text-zinc-100 flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-900">
+            <button type="button" onClick={scrollToCalendar} className="px-8 py-3 border border-primary/40 dark:border-zinc-700 text-xs font-semibold tracking-[0.2em] uppercase text-primary dark:text-zinc-100 flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-900">
               Ver Todos &nbsp; <ArrowRightIcon className="w-4 h-4 ml-2" />
             </button>
           </div>
         </div>
 
-        {/* Carousel Area */}
+        {status !== "ready" || events.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-3 border border-dashed border-border py-20 text-center text-muted-foreground">
+            {status === "loading" ? (
+              <span className="text-sm">Cargando eventos…</span>
+            ) : (
+              <>
+                <CalendarX className="w-8 h-8" />
+                <span className="text-sm">
+                  {status === "error"
+                    ? "No se pudieron cargar los eventos."
+                    : "No hay eventos próximos por ahora."}
+                </span>
+              </>
+            )}
+          </div>
+        ) : (
+        /* Carousel Area */
         <div className="relative">
           {/* Navigation Controls Contextual */}
           <div className="hidden lg:flex absolute -left-16 top-1/3 -translate-y-1/2 z-10">
@@ -175,6 +137,9 @@ export function EventsCarousel() {
             {events.map((event, index) => (
               <motion.div
                 key={event.id}
+                data-cms-collection="events"
+                data-cms-id={event.id}
+                onClick={() => setOpenIndex(index)}
                 className="carousel-item snap-start shrink-0 w-[85vw] sm:w-[45vw] xl:w-[calc(33.333%-1.5rem)] flex flex-col group cursor-pointer"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -183,28 +148,34 @@ export function EventsCarousel() {
               >
                 {/* Image Card */}
                 <div className="w-full aspect-[4/3] overflow-hidden rounded-sm bg-neutral-100 dark:bg-neutral-900 mb-6">
-                  <img
-                    src={event.imageUrl}
-                    alt={event.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  {event.imageUrl ? (
+                    <img
+                      src={event.imageUrl}
+                      alt={event.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm tracking-[0.2em] uppercase">
+                      {event.typeLabel}
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div className="flex flex-col flex-1 px-1">
                   <span className="text-sm font-medium text-muted-foreground mb-3">
-                    {event.dateLabel}
+                    {formatEventDateLabel(event)}
                   </span>
 
                   <h3 className="text-2xl lg:text-3xl font-serif text-primary dark:text-zinc-100 leading-tight mb-4 group-hover:text-[#dfa83d] transition-colors duration-300 line-clamp-2">
-                    {event.name}
+                    {event.title}
                   </h3>
 
                   <div className="mt-auto pt-2">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        addToCalendar(event);
+                        setOpenIndex(index);
                       }}
                       className="inline-flex items-center text-xs font-semibold tracking-[0.2em] uppercase text-primary dark:text-zinc-100 group/btn"
                     >
@@ -216,10 +187,17 @@ export function EventsCarousel() {
             ))}
           </div>
         </div>
+        )}
+
+        <EventDetailsModal
+          events={openIndex === null ? [] : events}
+          initialIndex={openIndex ?? 0}
+          onClose={() => setOpenIndex(null)}
+        />
 
         {/* Mobile View All button */}
         <div className="mt-8 flex justify-center md:hidden">
-          <button className="w-full px-8 py-4 border border-primary/40 dark:border-zinc-700 text-xs font-semibold tracking-[0.2em] uppercase text-primary dark:text-zinc-100 flex items-center justify-center transition-all duration-300">
+          <button type="button" onClick={scrollToCalendar} className="w-full px-8 py-4 border border-primary/40 dark:border-zinc-700 text-xs font-semibold tracking-[0.2em] uppercase text-primary dark:text-zinc-100 flex items-center justify-center transition-all duration-300">
             Ver Todos &nbsp; <ArrowRightIcon className="w-4 h-4 ml-2" />
           </button>
         </div>

@@ -1,4 +1,5 @@
 import { CalendarView } from "@/core/components/calendarEvents";
+import { EVENTS_SECTION_IDS } from "@/domains/events/constants/eventsConfig";
 
 /**
  * Sección del calendario de eventos
@@ -6,7 +7,7 @@ import { CalendarView } from "@/core/components/calendarEvents";
  */
 export function CalendarSection() {
   return (
-    <section className="w-full min-h-screen py-20 px-6 lg:px-16 bg-[#fcf9f4] dark:bg-zinc-950">
+    <section id={EVENTS_SECTION_IDS.CALENDAR} className="w-full min-h-screen scroll-mt-24 py-20 px-6 lg:px-16 bg-[#fcf9f4] dark:bg-zinc-950">
       {/* Header de la sección */}
       <div className="max-w-7xl mx-auto mb-12">
         <span className="font-['Brush_Script_MT',cursive,serif] text-3xl md:text-4xl text-[#dfa83d] inline-block -rotate-2 mb-2 ml-2">

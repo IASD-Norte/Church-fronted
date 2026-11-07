@@ -1,3 +1,5 @@
+export { resolveMediaUrl } from './media'
+
 export {
   loadContent,
   setContent,
@@ -22,6 +24,7 @@ export {
   DEFAULT_ABOUT_MISSION,
   DEFAULT_DEPARTMENTS_INDEX,
   DEFAULT_GRUPOS_PAGE,
+  DEFAULT_SITE_HEADER,
   normalizeStats,
   type ContentMap,
   type HomeHeroSetting,
@@ -40,4 +43,6 @@ export {
   type AboutMissionSetting,
   type DepartmentsIndexSetting,
   type GruposPageSetting,
+  type NavLinkItem,
+  type SiteHeaderSetting,
 } from './schema'

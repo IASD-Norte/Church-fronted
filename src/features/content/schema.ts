@@ -131,6 +131,32 @@ export type GruposPageSetting = {
   gridHeading: string
 }
 
+export type NavLinkItem = {
+  label: string
+  href: string
+}
+
+export type SiteHeaderSetting = {
+  /** Logo sobre fondo claro (navbar con fondo). */
+  logoUrl: string
+  /** Logo sobre el video de Inicio (navbar transparente). Vacío = logoUrl en blanco. */
+  logoOnDarkUrl: string
+  homeLabel: string
+  aboutLabel: string
+  departmentsLabel: string
+  resourcesLabel: string
+  eventsLabel: string
+  contactLabel: string
+  aboutImageUrl: string
+  aboutLinks: NavLinkItem[]
+  aboutPrimaryCtaLabel: string
+  aboutPrimaryCtaHref: string
+  aboutSecondaryCtaLabel: string
+  aboutSecondaryCtaHref: string
+  departmentsLinks: NavLinkItem[]
+  departmentsCtaLabel: string
+}
+
 export type ContentMap = {
   home_hero: HomeHeroSetting
   home_intro: HomeIntroSetting
@@ -146,6 +172,7 @@ export type ContentMap = {
   about_mission: AboutMissionSetting
   departments_index: DepartmentsIndexSetting
   grupos_page: GruposPageSetting
+  site_header: SiteHeaderSetting
   [key: string]: unknown
 }
 
@@ -312,6 +339,44 @@ export const DEFAULT_GRUPOS_PAGE: GruposPageSetting = {
   bodyRight:
     'e) promover la multiplicación del grupo con nuevos amigos y futuros miembros de la iglesia. La celebración de la amistad en pequeños grupos es una estrategia apropiada, porque permite fortalecer las relaciones interpersonales basadas en la hermandad y la fe, fomenta el desarrollo de los dones espirituales, favorece lazos de amistad entre los participantes por medio del intercambio de ideas y experiencias, y conduce al estudio profundo de la Palabra de Dios.',
   gridHeading: 'Conoce nuestros grupos',
+}
+
+export const DEFAULT_SITE_HEADER: SiteHeaderSetting = {
+  logoUrl: '/logo/logo-remove.png',
+  logoOnDarkUrl: '',
+  homeLabel: 'Inicio',
+  aboutLabel: 'Nosotros',
+  departmentsLabel: 'Departamentos',
+  resourcesLabel: 'Recursos',
+  eventsLabel: 'Eventos',
+  contactLabel: 'Contactanos',
+  aboutImageUrl: '/images/mas/1.jpg',
+  aboutLinks: [
+    { label: '¿Quiénes Somos?', href: '/nosotros#quienes-somos' },
+    { label: 'Creencias', href: '/nosotros#creencias' },
+    { label: 'Nuestra Historia', href: '/nosotros#historia' },
+    { label: 'Recursos', href: '/recursos' },
+  ],
+  aboutPrimaryCtaLabel: 'Conócenos más',
+  aboutPrimaryCtaHref: '/nosotros',
+  aboutSecondaryCtaLabel: 'Contáctanos',
+  aboutSecondaryCtaHref: '/contact',
+  departmentsLinks: [
+    { label: 'Mayordomía', href: '/departamentos/mayordomia' },
+    { label: 'Diáconos', href: '/departamentos/diaconos' },
+    { label: 'Conquistadores', href: '/departamentos/conquistadores' },
+    { label: 'Ministerios Personales', href: '/departamentos/ministerios-personales' },
+    { label: 'Comunicaciones', href: '/departamentos/comunicaciones' },
+    { label: 'Escuela Sabática', href: '/departamentos/escuela-sabatica' },
+    { label: 'Jóvenes', href: '/departamentos/jovenes' },
+    { label: 'Universitarios', href: '/departamentos/universitarios' },
+    { label: 'Educación', href: '/departamentos/educacion' },
+    { label: 'Familia', href: '/departamentos/familia' },
+    { label: 'Salud', href: '/departamentos/salud' },
+    { label: 'Dorcas', href: '/departamentos/dorcas' },
+    { label: 'Tesorería', href: '/departamentos/tesoreria' },
+  ],
+  departmentsCtaLabel: 'Ver todos los departamentos',
 }
 
 export function normalizeStats(

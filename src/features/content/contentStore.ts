@@ -6,6 +6,7 @@ import {
   DEFAULT_CONTACT_FORM,
   DEFAULT_DEPARTMENTS_INDEX,
   DEFAULT_GRUPOS_PAGE,
+  DEFAULT_SITE_HEADER,
   DEFAULT_HERO,
   DEFAULT_HOME_CHURCHES,
   DEFAULT_HOME_CTA,
@@ -114,6 +115,7 @@ const KEY_DEFAULTS: Partial<ContentMap> = {
   about_mission: DEFAULT_ABOUT_MISSION,
   departments_index: DEFAULT_DEPARTMENTS_INDEX,
   grupos_page: DEFAULT_GRUPOS_PAGE,
+  site_header: DEFAULT_SITE_HEADER,
 }
 
 export function useContent<K extends keyof ContentMap>(
