@@ -1,5 +1,5 @@
 export interface CalendarEvent {
-  id: number;
+  id: number | string;
   name: string;
   description: string;
   category: string;
@@ -55,5 +55,6 @@ END:VCALENDAR
 
 export const addToCalendar = (event: CalendarEvent) => {
   const isApple = /iPhone|iPad|Mac/i.test(navigator.userAgent);
-  isApple ? addToAppleCalendar(event) : addToGoogleCalendar(event);
+  if (isApple) addToAppleCalendar(event);
+  else addToGoogleCalendar(event);
 };

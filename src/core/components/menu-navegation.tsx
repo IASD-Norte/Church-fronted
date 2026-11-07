@@ -3,6 +3,7 @@ import { cn } from "@/shared/lib/utils"
 import { ChevronDown, Menu, X } from "lucide-react"
 import * as React from "react"
 import { Link, useLocation } from "react-router-dom"
+import { resolveMediaUrl, useContent } from "@/features/content"
 
 export function NavigationMenuDemo() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
@@ -25,18 +26,48 @@ export function NavigationMenuDemo() {
     setOpenSubmenu(null)
   }, [location])
 
+  // Editor visual: al seleccionar un campo de un submenú, abrirlo para que se vea
+  React.useEffect(() => {
+    const onCmsSelect = (e: Event) => {
+      const path = String((e as CustomEvent<string>).detail ?? "")
+      const field = path.split(".")[1] ?? ""
+      if (!path.startsWith("site_header.")) return
+      if (field.startsWith("about") && field !== "aboutLabel") setActiveDesktopMenu("nosotros")
+      else if (field.startsWith("departments") && field !== "departmentsLabel") setActiveDesktopMenu("departamentos")
+      else setActiveDesktopMenu(null)
+    }
+    window.addEventListener("cms:select", onCmsSelect)
+    return () => window.removeEventListener("cms:select", onCmsSelect)
+  }, [])
+
   const toggleSubmenu = (menu: string) => {
     setOpenSubmenu(openSubmenu === menu ? null : menu)
   }
 
   const isHomePage = location.pathname === "/"
   const activeScrolled = !isHomePage || scrolled
+  const header = useContent("site_header")
+
+  // El navbar solo es transparente sobre el video de Inicio (sin scroll ni menú abierto).
+  // En el resto de páginas tiene fondo claro, así que el logo NO debe invertirse.
+  const desktopTransparent = !activeScrolled && !activeDesktopMenu
+  const mobileTransparent = !activeScrolled && !mobileMenuOpen
+  const logoSrc = resolveMediaUrl(header.logoUrl)
+  const logoOnDark = resolveMediaUrl(header.logoOnDarkUrl)
+  const logoFor = (transparent: boolean) => ({
+    src: transparent && logoOnDark ? logoOnDark : logoSrc,
+    // Sin logo específico para fondo oscuro, se usa el normal en blanco
+    className: transparent ? (logoOnDark ? "" : "invert") : "dark:invert",
+  })
+  const desktopLogo = logoFor(desktopTransparent)
+  const mobileLogo = logoFor(mobileTransparent)
 
 
   return (
     <>
       {/* Desktop Navigation */}
       <nav
+        data-cms-section="site_header"
         className={cn(
           "hidden lg:flex fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-24 items-center justify-center",
           activeScrolled || activeDesktopMenu
@@ -51,11 +82,11 @@ export function NavigationMenuDemo() {
             className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200"
           >
             <img
-              src="/logo/logo-remove.png"
-              alt=""
-              className={cn(
-                scrolled || activeDesktopMenu ? "h-60 w-auto transition-all duration-300 dark:invert" : "h-60 w-auto transition-all duration-300 invert"
-              )}
+              src={desktopLogo.src}
+              alt="Iglesia Adventista Norte"
+              data-cms="site_header.logoUrl"
+              data-cms-type="image"
+              className={cn("h-60 w-auto transition-all duration-300", desktopLogo.className)}
             />
           </Link>
         </div>
@@ -70,7 +101,7 @@ export function NavigationMenuDemo() {
                 : "text-white hover:text-white/80 hover:bg-white/10"
             )}
           >
-            Inicio
+            <span data-cms="site_header.homeLabel" data-cms-type="text">{header.homeLabel}</span>
           </Link>
 
           {/* NOSOTROS */}
@@ -88,7 +119,7 @@ export function NavigationMenuDemo() {
                 activeDesktopMenu === 'nosotros' && "text-primary bg-accent/50"
               )}
             >
-              Nosotros
+              <span data-cms="site_header.aboutLabel" data-cms-type="text">{header.aboutLabel}</span>
               <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", activeDesktopMenu === 'nosotros' && "rotate-180")} />
             </Link>
 
@@ -104,9 +135,11 @@ export function NavigationMenuDemo() {
                   <div className="w-[45%] flex-shrink-0">
                     <Link to="/nosotros" className="block w-full overflow-hidden transition-opacity hover:opacity-90">
                       <img
-                        src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweplqjh2n9EK-lXikWaJtIbup-O4shDkSWeQSrD4d32g_mJPlbcqcOxp_1mxnQMF1W441s3ndQysnwdo7yrfOoIIwVWuibqTeCqNwwbZRQ94mrBLAEKjukf7fZyxW0IwmhPVrKlBaQ=s680-w680-h510-rw"
+                        src={resolveMediaUrl(header.aboutImageUrl)}
                         alt="Iglesia Adventista Norte"
-                        className="w-full h-auto object-cover"
+                        data-cms="site_header.aboutImageUrl"
+                        data-cms-type="image"
+                        className="w-full aspect-[4/3] object-cover bg-muted"
                       />
                     </Link>
                   </div>
@@ -114,33 +147,34 @@ export function NavigationMenuDemo() {
                   {/* Right side: Links Grid */}
                   <div className="w-[55%] flex flex-col justify-center">
                     <div className="grid grid-cols-2 gap-x-12 gap-y-8 font-serif">
-                      <Link to="/nosotros#quienes-somos" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
-                        ¿Quiénes Somos?
-                      </Link>
-                      <Link to="/nosotros#creencias" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
-                        Creencias
-                      </Link>
-                      <Link to="/nosotros#historia" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
-                        Nuestra Historia
-                      </Link>
-                      <Link to="/recursos" className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity">
-                        Recursos
-                      </Link>
+                      {header.aboutLinks.map((link, i) => (
+                        <Link
+                          key={`${link.href}-${i}`}
+                          to={link.href}
+                          data-cms={`site_header.aboutLinks.${i}`}
+                          data-cms-type="list-item"
+                          className="text-[22px] font-medium tracking-wide hover:opacity-75 transition-opacity"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
                     </div>
 
                     {/* Action Buttons */}
                     <div className="flex gap-4 mt-12">
                       <Link
-                        to="/nosotros"
+                        to={header.aboutPrimaryCtaHref}
                         className="flex items-center gap-3 px-6 py-3 border border-border text-sm font-semibold tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors"
                       >
-                        CONÓCENOS MÁS <span className="text-lg leading-none">→</span>
+                        <span data-cms="site_header.aboutPrimaryCtaLabel" data-cms-type="text">{header.aboutPrimaryCtaLabel}</span>
+                        <span className="text-lg leading-none">→</span>
                       </Link>
                       <Link
-                        to="/contact"
+                        to={header.aboutSecondaryCtaHref}
                         className="flex items-center gap-3 px-6 py-3 border border-border text-sm font-semibold tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors"
                       >
-                        CONTÁCTANOS <span className="text-lg leading-none">→</span>
+                        <span data-cms="site_header.aboutSecondaryCtaLabel" data-cms-type="text">{header.aboutSecondaryCtaLabel}</span>
+                        <span className="text-lg leading-none">→</span>
                       </Link>
                     </div>
                   </div>
@@ -163,7 +197,7 @@ export function NavigationMenuDemo() {
                 activeDesktopMenu === 'departamentos' && "text-primary bg-accent/50"
               )}
             >
-              Departamentos
+              <span data-cms="site_header.departmentsLabel" data-cms-type="text">{header.departmentsLabel}</span>
               <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", activeDesktopMenu === 'departamentos' && "rotate-180")} />
             </span>
 
@@ -177,19 +211,17 @@ export function NavigationMenuDemo() {
                 <div className="flex w-full max-w-7xl mx-auto flex-col">
                   {/* Departments Grid */}
                   <div className="grid grid-cols-4 gap-x-12 gap-y-6 font-serif">
-                    <Link to="/departamentos/mayordomia" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Mayordomía</Link>
-                    <Link to="/departamentos/diaconos" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Diáconos</Link>
-                    <Link to="/departamentos/conquistadores" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Conquistadores</Link>
-                    <Link to="/departamentos/ministerios-personales" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Ministerios Personales</Link>
-                    <Link to="/departamentos/comunicaciones" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Comunicaciones</Link>
-                    <Link to="/departamentos/escuela-sabatica" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Escuela Sabática</Link>
-                    <Link to="/departamentos/jovenes" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Jóvenes</Link>
-                    <Link to="/departamentos/universitarios" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Universitarios</Link>
-                    <Link to="/departamentos/educacion" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Educación</Link>
-                    <Link to="/departamentos/familia" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Familia</Link>
-                    <Link to="/departamentos/salud" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Salud</Link>
-                    <Link to="/departamentos/dorcas" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Dorcas</Link>
-                    <Link to="/departamentos/tesoreria" className="text-[20px] tracking-wide hover:opacity-75 transition-opacity">Tesorería</Link>
+                    {header.departmentsLinks.map((link, i) => (
+                      <Link
+                        key={`${link.href}-${i}`}
+                        to={link.href}
+                        data-cms={`site_header.departmentsLinks.${i}`}
+                        data-cms-type="list-item"
+                        className="text-[20px] tracking-wide hover:opacity-75 transition-opacity"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
                   </div>
 
                   {/* Action Buttons */}
@@ -198,7 +230,8 @@ export function NavigationMenuDemo() {
                       to="/departamentos"
                       className="flex items-center gap-3 px-6 py-3 border border-border text-sm font-semibold tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors"
                     >
-                      VER TODOS LOS DEPARTAMENTOS <span className="text-lg leading-none">→</span>
+                      <span data-cms="site_header.departmentsCtaLabel" data-cms-type="text">{header.departmentsCtaLabel}</span>
+                      <span className="text-lg leading-none">→</span>
                     </Link>
                   </div>
                 </div>
@@ -215,7 +248,7 @@ export function NavigationMenuDemo() {
                 : "text-white hover:text-white/80 hover:bg-white/10"
             )}
           >
-            Recursos
+            <span data-cms="site_header.resourcesLabel" data-cms-type="text">{header.resourcesLabel}</span>
           </Link>
 
           <Link
@@ -227,7 +260,7 @@ export function NavigationMenuDemo() {
                 : "text-white hover:text-white/80 hover:bg-white/10"
             )}
           >
-            Eventos
+            <span data-cms="site_header.eventsLabel" data-cms-type="text">{header.eventsLabel}</span>
           </Link>
 
           <Link
@@ -239,7 +272,7 @@ export function NavigationMenuDemo() {
                 : "text-white hover:text-white/80 hover:bg-white/10"
             )}
           >
-            Contactanos
+            <span data-cms="site_header.contactLabel" data-cms-type="text">{header.contactLabel}</span>
           </Link>
         </div>
 
@@ -260,12 +293,9 @@ export function NavigationMenuDemo() {
         <div className="flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
             <img
-              src={activeScrolled || mobileMenuOpen ? "/logo-remove.png" : "/logo.jpg"}
-              alt="Logo IASD"
-              className={cn(
-                "h-10 w-auto transition-all duration-300",
-                !(activeScrolled || mobileMenuOpen) && "rounded-full"
-              )}
+              src={mobileLogo.src}
+              alt="Iglesia Adventista Norte"
+              className={cn("h-10 w-auto transition-all duration-300", mobileLogo.className)}
             />
           </Link>
 
@@ -293,55 +323,43 @@ export function NavigationMenuDemo() {
           <div className="absolute top-full left-0 right-0 bg-background/85 backdrop-blur-lg border-b border-border/50 shadow-xl max-h-[calc(100vh-80px)] overflow-y-auto">
             <nav className="p-4 space-y-1">
               <MobileNavLink to="/" onClick={() => setMobileMenuOpen(false)}>
-                Inicio
+                {header.homeLabel}
               </MobileNavLink>
 
               <MobileSubmenu
-                title="Nosotros"
+                title={header.aboutLabel}
                 isOpen={openSubmenu === 'nosotros'}
                 onToggle={() => toggleSubmenu('nosotros')}
               >
-                <MobileNavLink to="/nosotros#quienes-somos" onClick={() => setMobileMenuOpen(false)}>
-                  ¿Quiénes Somos?
-                </MobileNavLink>
-                <MobileNavLink to="/nosotros#creencias" onClick={() => setMobileMenuOpen(false)}>
-                  Creencias
-                </MobileNavLink>
-                <MobileNavLink to="/nosotros#historia" onClick={() => setMobileMenuOpen(false)}>
-                  Nuestra Historia
-                </MobileNavLink>
+                {header.aboutLinks.map((link, i) => (
+                  <MobileNavLink key={`${link.href}-${i}`} to={link.href} onClick={() => setMobileMenuOpen(false)}>
+                    {link.label}
+                  </MobileNavLink>
+                ))}
               </MobileSubmenu>
 
-
               <MobileSubmenu
-                title="Departamentos"
+                title={header.departmentsLabel}
                 isOpen={openSubmenu === 'departamentos'}
                 onToggle={() => toggleSubmenu('departamentos')}
               >
                 <div className="grid grid-cols-2 gap-1">
-                  <MobileNavLink to="/departamentos/mayordomia" onClick={() => setMobileMenuOpen(false)}>Mayordomía</MobileNavLink>
-                  <MobileNavLink to="/departamentos/ministerios-personales" onClick={() => setMobileMenuOpen(false)}>Min. Personales</MobileNavLink>
-                  <MobileNavLink to="/departamentos/comunicaciones" onClick={() => setMobileMenuOpen(false)}>Comunicaciones</MobileNavLink>
-                  <MobileNavLink to="/departamentos/escuela-sabatica" onClick={() => setMobileMenuOpen(false)}>Esc. Sabática</MobileNavLink>
-                  <MobileNavLink to="/departamentos/jovenes" onClick={() => setMobileMenuOpen(false)}>Jóvenes</MobileNavLink>
-                  <MobileNavLink to="/departamentos/universitarios" onClick={() => setMobileMenuOpen(false)}>Universitarios</MobileNavLink>
-                  <MobileNavLink to="/departamentos/educacion" onClick={() => setMobileMenuOpen(false)}>Educación</MobileNavLink>
-                  <MobileNavLink to="/departamentos/familia" onClick={() => setMobileMenuOpen(false)}>Familia</MobileNavLink>
-                  <MobileNavLink to="/departamentos/salud" onClick={() => setMobileMenuOpen(false)}>Salud</MobileNavLink>
-                  <MobileNavLink to="/departamentos/dorcas" onClick={() => setMobileMenuOpen(false)}>Dorcas</MobileNavLink>
-                  <MobileNavLink to="/departamentos/tesoreria" onClick={() => setMobileMenuOpen(false)}>Tesorería</MobileNavLink>
+                  {header.departmentsLinks.map((link, i) => (
+                    <MobileNavLink key={`${link.href}-${i}`} to={link.href} onClick={() => setMobileMenuOpen(false)}>
+                      {link.label}
+                    </MobileNavLink>
+                  ))}
                 </div>
               </MobileSubmenu>
 
               <MobileNavLink to="/recursos" onClick={() => setMobileMenuOpen(false)}>
-                Recursos
+                {header.resourcesLabel}
               </MobileNavLink>
-
               <MobileNavLink to="/eventos" onClick={() => setMobileMenuOpen(false)}>
-                Eventos
+                {header.eventsLabel}
               </MobileNavLink>
               <MobileNavLink to="/contact" onClick={() => setMobileMenuOpen(false)}>
-                Contactanos
+                {header.contactLabel}
               </MobileNavLink>
             </nav>
           </div>
